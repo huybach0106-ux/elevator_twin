@@ -23,7 +23,7 @@ import numpy as np
 
 from ai.features import MODE_VI
 from algorithms.baseline import BaselineDispatcher
-from algorithms.optimized import OptimizedDispatcher
+from algorithms.optimized import REPORT_TTL, OptimizedDispatcher
 from algorithms.roles import role_from_dict, role_to_dict
 from config import AVG_PAX_KG, CARS, F, G, LOBBY, N_FLOORS, UPPER, fname
 from realtime.bus import get_bus, prefix
@@ -157,16 +157,39 @@ class TwinService:
     def _on_stop(self, msg):
         self.mirror.obs.append(msg)
         self.planner.on_observation(msg)
+        # cabin đã đón khách ở tầng được báo cáo -> trừ dần số người báo cáo
+        key = (msg.get("floor"), msg.get("dir"))
+        if key in self.planner.reported:
+            t0, n = self.planner.reported[key]
+            n -= msg.get("n_in", 0)
+            if n <= 0 or not msg.get("left"):
+                del self.planner.reported[key]
+            else:
+                self.planner.reported[key] = (t0, n)
         if len(self.mirror.obs) > 5000:
             self.mirror.obs = self.mirror.obs[-3000:]
 
     def _on_report(self, msg):
-        """Báo cáo hàng chờ của người dùng: coi như một quan sát số người còn chờ ở tầng đó."""
+        """Báo cáo hàng chờ của người dùng (form QR): twin tin con số này trong 3 phút, hoặc tới khi cabin đón hết."""
         f, n = F(str(msg["floor"]).strip()), int(msg["count"])     # tầng theo tên: "G", "8", "B1"
-        d = int(msg.get("dir", -1 if f not in LOBBY else 1))
-        self.planner.land[(f, d)] = (self.mirror.t, n)
-        self.reports.append({"clock": clock_str(self.clock0 + self.mirror.t), "floor": fname(f), "count": n})
+        d = int(msg.get("dir", 1 if f in LOBBY else -1))
+        if n <= 0:
+            self.planner.reported.pop((f, d), None)
+        else:
+            self.planner.reported[(f, d)] = (self.mirror.t, n)
+        clk = clock_str(self.clock0 + self.mirror.t)
+        self.reports.append({"clock": clk, "floor": fname(f), "count": n, "dir": d})
         self.reports = self.reports[-10:]
+        self.cmd_log.append({"clock": clk, "text": f"Nhận báo cáo: tầng {fname(f)} ~{n} người chờ"
+                             + (" đi lên" if d > 0 else " đi xuống")})
+        self.cmd_log = self.cmd_log[-12:]
+
+    def _active_reports(self):
+        t = self.mirror.t
+        rep = self.planner.reported
+        for k in [k for k, (t0, _) in rep.items() if t - t0 > REPORT_TTL]:
+            del rep[k]
+        return {k: (t - t0, n) for k, (t0, n) in rep.items()}
 
     # ------------------------------------------------------------- output
     def _send_commands(self):
@@ -187,9 +210,21 @@ class TwinService:
     def _est_waiting(self):
         """Twin ước lượng số người chờ mỗi tầng từ nút gọi + tốc độ lên cabin + báo cáo người dùng."""
         est = [0.0] * N_FLOORS
-        for (f, d), age in self.mirror.calls.items():
+        calls = self.mirror.calls
+        for (f, d), age in calls.items():
             est[f] += self.planner._est_crowd(f, d, age)
+        for (f, d), (age, n) in self._active_reports().items():
+            if (f, d) not in calls:            # báo cáo ở tầng chưa có ai bấm gọi
+                est[f] += n
         return [round(x, 1) for x in est]
+
+    def _est_calls(self):
+        calls = self.mirror.calls
+        out = [[f, d, round(self.planner._est_crowd(f, d, a), 1), round(a)] for (f, d), a in calls.items()]
+        for (f, d), (age, n) in self._active_reports().items():
+            if (f, d) not in calls:
+                out.append([f, d, float(n), round(age)])
+        return out
 
     def _publish_view(self):
         m = self.mirror
@@ -200,7 +235,9 @@ class TwinService:
             "t": m.t, "clock": clock_str(clock), "mode": self.planner.mode, "mode_vi": MODE_VI.get(self.planner.mode, ""),
             "control": self.control, "roles_now": roles, "recommended": rec,
             "est_waiting": self._est_waiting(), "cmd_log": self.cmd_log[-8:], "reports": self.reports[-5:],
-            "est_calls": [[f, d, round(self.planner._est_crowd(f, d, a), 1), round(a)] for (f, d), a in m.calls.items()],
+            "est_calls": self._est_calls(),
+            "reports_active": [{"floor": fname(f), "dir": d, "count": n, "age": round(a)}
+                               for (f, d), (a, n) in self._active_reports().items()],
             "upcoming": self.tt.upcoming(clock, 900)[:8], "lookahead": self.lookahead,
             "cars": [{"id": c.id, "pos": c.pos_float(), "load": c.sensed_load, "state": c.state, "dir": c.dir,
                       "role": role_to_dict(c.role), "out": c.out} for c in m.cars],

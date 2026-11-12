@@ -124,6 +124,7 @@ td.num { font-family: var(--font-data) }
 .log { display: grid; gap: 4px; font-size: .8rem; max-height: 200px; overflow-y: auto }
 .log div { display: grid; grid-template-columns: 70px 1fr; gap: 8px; border-bottom: 1px dashed var(--line); padding-bottom: 3px }
 .log span:first-child { font-family: var(--font-data); color: var(--muted) }
+.log div.muted { display: block }
 .pill { font-size: .74rem; font-weight: 600; border-radius: 99px; padding: 2px 9px; background: var(--sunk); border: 1px solid var(--line) }
 .pill.on { color: var(--ok); border-color: var(--ok) }
 .kv { display: grid; grid-template-columns: auto 1fr; gap: 4px 12px; font-size: .84rem }
@@ -257,6 +258,7 @@ td.num { font-family: var(--font-data) }
       <div class="field"><label for="lv-rfloor">Báo hàng chờ: tầng</label><select id="lv-rfloor"></select></div>
       <div class="field"><label for="lv-rcount">Số người</label><input id="lv-rcount" type="number" value="20" min="0" max="300"></div>
       <button class="btn" id="lv-report">Gửi báo cáo</button>
+      <span class="muted" id="lv-rmsg" aria-live="polite" style="font-size:.82rem"></span>
       <a class="muted" href="/bao-cao" target="_blank" rel="noopener" style="font-size:.82rem">Mở form báo hàng chờ cho điện thoại</a>
     </div>
     <p class="static-banner" id="lv-static" hidden>Chế độ thời gian thực cần máy chủ: chạy <span class="num">python web_app.py</span> rồi mở http://localhost:5000.</p>
@@ -268,7 +270,7 @@ td.num { font-family: var(--font-data) }
     </div>
     <div class="grid3">
       <div><h3>Dự báo 10 phút tới</h3><div id="lv-forecast" class="kv"></div><h3 style="margin-top:10px">Thời khóa biểu sắp tới</h3><div class="log" id="lv-upcoming"></div></div>
-      <div><h3>Lệnh twin gửi tòa nhà</h3><div class="log" id="lv-cmds"></div><h3 style="margin-top:10px">Nhật ký tòa nhà</h3><div class="log" id="lv-blog"></div></div>
+      <div><h3>Báo cáo hàng chờ từ sinh viên</h3><div class="log" id="lv-reports"></div><h3 style="margin-top:10px">Lệnh twin gửi tòa nhà</h3><div class="log" id="lv-cmds"></div><h3 style="margin-top:10px">Nhật ký tòa nhà</h3><div class="log" id="lv-blog"></div></div>
       <div><h3>Độ chính xác của twin</h3><canvas id="lv-acc" height="170"></canvas><p class="muted" style="margin:0;font-size:.8rem" id="lv-acc-note">Tổng số người đang chờ: thật và twin ước lượng.</p></div>
     </div>
   </section>
@@ -951,7 +953,11 @@ function liveInit(){
   $("lv-control").addEventListener("change", () => post("/api/live/cmd", {kind: "control", mode: $("lv-control").value}));
   $("lv-speed").addEventListener("change", () => post("/api/live/cmd", {kind: "speed", speed: +$("lv-speed").value}));
   $("lv-fault").addEventListener("click", () => post("/api/live/cmd", {kind: "fault", car: $("lv-fcar").value, minutes: +$("lv-fmin").value}));
-  $("lv-report").addEventListener("click", () => post("/api/live/report", {floor: $("lv-rfloor").value, count: +$("lv-rcount").value}));
+  $("lv-report").addEventListener("click", async () => {
+    const floor = $("lv-rfloor").value, count = +$("lv-rcount").value;
+    const d = await post("/api/live/report", {floor, count});
+    $("lv-rmsg").textContent = d.ok ? `Đã gửi: tầng ${floor}, ~${count} người. Xem bên twin.` : (d.error || "Chưa chạy trực tiếp.");
+  });
   fetch("/api/live/state").then(r => r.json()).then(d => { if (d.running){ $("lv-start").textContent = "Dừng"; $("lv-status").textContent = "Đang chạy"; $("lv-status").classList.add("on"); LV.timer = setInterval(livePoll, 1000); } }).catch(() => {});
 }
 async function post(url, body){ const r = await fetch(url, {method:"POST", headers:{"Content-Type":"application/json"}, body: JSON.stringify(body)}); return r.json(); }
@@ -976,6 +982,8 @@ async function livePoll(){
   $("lv-forecast").innerHTML = la.keep && la.twin ? `<span>Giữ nguyên phân vai</span><b>AWT ${la.keep.AWT} s · P95 ${la.keep.P95} s · tệ nhất tầng ${la.keep.worst_floor}</b>
     <span>Theo twin (P2)</span><b>AWT ${la.twin.AWT} s · P95 ${la.twin.P95} s · tệ nhất tầng ${la.twin.worst_floor}</b><span>Tính lúc</span><b>${la.clock} · ${la.n} khách</b>` : `<span class="muted">Đang tính dự báo…</span><b></b>`;
   $("lv-upcoming").innerHTML = (tw.upcoming || []).map(e => `<div><span>${e.time.slice(0,5)}</span><span>Tầng ${FLOORS[e.floor]} ${e.kind} · ${e.subject} · ~${e.n} người</span></div>`).join("") || `<div class="muted">Không có lớp nào trong 15 phút tới.</div>`;
+  $("lv-reports").innerHTML = (tw.reports_active || []).map(r => `<div><span>Tầng ${esc(r.floor)}</span><span>~${r.count} người ${r.dir > 0 ? "đi lên" : "đi xuống"} · ${r.age} s trước · twin đang tính vào</span></div>`).join("")
+    + ((tw.reports || []).length ? `<div class="muted">Gần nhất: ${(tw.reports || []).slice(-3).reverse().map(r => `${r.clock.slice(0,5)} tầng ${esc(r.floor)} ~${r.count}`).join(" · ")}</div>` : `<div class="muted">Chưa có báo cáo. Gửi ở ô trên hoặc qua form điện thoại.</div>`);
   $("lv-cmds").innerHTML = (tw.cmd_log || []).slice().reverse().map(e => `<div><span>${e.clock.slice(0,5)}</span><span>${esc(e.text)}</span></div>`).join("") || `<div class="muted">Chưa gửi lệnh nào.</div>`;
   $("lv-blog").innerHTML = (tr.log || []).slice().reverse().map(e => `<div><span>${e.t.slice(0,5)}</span><span>${esc(e.msg)}</span></div>`).join("") || `<div class="muted">–</div>`;
   liveAcc(d.history || [], d.accuracy);

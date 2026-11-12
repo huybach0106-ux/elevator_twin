@@ -31,6 +31,7 @@ from config import (
 )
 
 STOP_COST = DOOR_TIME + 4 * TRANSFER_TIME
+REPORT_TTL = 180.0   # s – báo cáo hàng chờ còn hiệu lực trong 3 phút (mô phỏng)
 
 
 class OptimizedDispatcher:
@@ -56,6 +57,7 @@ class OptimizedDispatcher:
         self.cap = sim.capacity
         self.assign: dict = {}
         self.land: dict = {}            # (f,d) -> (t, còn người chờ hay không – từ nút gọi)
+        self.reported: dict = {}        # (f,d) -> (t, số người) – báo cáo hàng chờ của người dùng (form QR)
         self.mode = "TWO_WAY"
         self.mode_log: list = []
         self.plan = []                  # [(group, n)]
@@ -135,6 +137,9 @@ class OptimizedDispatcher:
         L = self.land.get((f, d))
         if L and self.sim.t - L[0] <= age + 1:
             base = max(1.0, L[1])
+        R = self.reported.get((f, d))
+        if R and self.sim.t - R[0] <= REPORT_TTL:
+            base = max(base, float(R[1]))
         return base + rate * min(age, self.p["window"]) / 60.0
 
     def _observed_demand(self, t, mode, calls):
