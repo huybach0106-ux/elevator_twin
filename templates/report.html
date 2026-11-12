@@ -1,0 +1,50 @@
+<title>Báo hàng chờ thang máy</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;600;700&display=swap">
+<style>
+:root { --bg: #eef1f4; --surface: #fff; --ink: #15202b; --muted: #5b6875; --line: #d5dce3; --accent: #c8711f; --ok: #2e8b57;
+  --font: "Be Vietnam Pro", "Segoe UI", system-ui, sans-serif }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --bg: #0f151b; --surface: #172029; --ink: #e6ecf1; --muted: #93a1ae; --line: #2a3642; --accent: #f0a04b; --ok: #4cbf7f; color-scheme: dark } }
+:root[data-theme="dark"] { --bg: #0f151b; --surface: #172029; --ink: #e6ecf1; --muted: #93a1ae; --line: #2a3642; --accent: #f0a04b; --ok: #4cbf7f; color-scheme: dark }
+* { box-sizing: border-box }
+body { background: var(--bg); color: var(--ink); font-family: var(--font); margin: 0 }
+main { max-width: 440px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-block: 24px; display: grid; gap: 16px }
+h1 { font-size: 1.3rem; margin: 0 }
+p { margin: 0; color: var(--muted) }
+.floors { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px }
+.floors button, .counts button { font: inherit; font-weight: 600; padding: 14px 0; border-radius: 10px; border: 1px solid var(--line); background: var(--surface); color: var(--ink); cursor: pointer }
+.floors button.on, .counts button.on { background: var(--accent); border-color: var(--accent); color: #fff }
+.counts { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px }
+label { font-size: .75rem; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); font-weight: 600 }
+#send { font: inherit; font-weight: 700; padding: 16px; border-radius: 12px; border: 0; background: var(--ink); color: var(--bg); cursor: pointer }
+#msg { min-height: 1.5em; font-weight: 600 }
+button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px }
+</style>
+<main>
+  <h1>Bạn đang chờ thang máy?</h1>
+  <p>Bấm tầng bạn đang đứng và ước lượng số người đang chờ. Digital Twin dùng báo cáo này để điều thêm cabin tới tầng đông.</p>
+  <label>Tầng bạn đang đứng</label>
+  <div class="floors" id="floors"></div>
+  <label>Khoảng bao nhiêu người đang chờ?</label>
+  <div class="counts" id="counts"></div>
+  <button id="send">Gửi báo cáo</button>
+  <div id="msg" aria-live="polite"></div>
+</main>
+<script>
+const FLOORS = ["10","9","8","7","6","5","4","3","2","1","G","B1","B2"];
+const COUNTS = [[3,"1–5"],[8,"6–10"],[15,"11–20"],[25,"21–30"],[40,"31–50"],[60,"Trên 50"]];
+let floor = "G", count = 8;
+const fl = document.getElementById("floors"), ct = document.getElementById("counts"), msg = document.getElementById("msg");
+for (const f of FLOORS){ const b = document.createElement("button"); b.textContent = f; b.onclick = () => { floor = f; mark(fl, b); }; if (f === "G") b.classList.add("on"); fl.appendChild(b); }
+for (const [v, lab] of COUNTS){ const b = document.createElement("button"); b.textContent = lab; b.onclick = () => { count = v; mark(ct, b); }; if (v === 8) b.classList.add("on"); ct.appendChild(b); }
+function mark(box, el){ for (const x of box.children) x.classList.toggle("on", x === el); }
+document.getElementById("send").onclick = async () => {
+  msg.textContent = "Đang gửi…";
+  try {
+    const r = await fetch("/api/live/report", {method: "POST", headers: {"Content-Type": "application/json"}, body: JSON.stringify({floor, count})});
+    const d = await r.json();
+    msg.textContent = d.ok ? `Đã gửi: tầng ${floor}, khoảng ${count} người. Cảm ơn bạn!` : (d.error || "Hệ thống chưa chạy trực tiếp, báo cáo chưa được dùng.");
+    msg.style.color = d.ok ? "var(--ok)" : "var(--accent)";
+  } catch (e) { msg.textContent = "Không gửi được: " + e.message; }
+};
+</script>

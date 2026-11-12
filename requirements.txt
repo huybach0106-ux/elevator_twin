@@ -1,0 +1,9 @@
+numpy>=1.24
+scipy>=1.10
+scikit-learn>=1.3
+joblib>=1.3
+optuna>=3.4
+flask>=2.3
+pytest>=7.4
+paho-mqtt>=2.0            # chế độ thời gian thực qua MQTT (tuỳ chọn)
+gunicorn>=21.2            # chạy trên máy chủ Linux / Docker (Windows dùng python web_app.py)

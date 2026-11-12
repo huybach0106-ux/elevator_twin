@@ -1,0 +1,331 @@
+<title>Tài liệu Digital Twin thang máy</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+/* Bố cục: mục lục cố định bên trái, nội dung một cột ~70 ký tự; xuống một cột trên điện thoại */
+:root {
+  --bg: #eef1f4; --surface: #ffffff; --sunk: #f5f7f9; --ink: #15202b; --muted: #5b6875; --line: #d5dce3;
+  --accent: #c8711f; --accent-soft: #fbead8; --px: #1d7486; --p0: #6b7785;
+  --font-ui: "Be Vietnam Pro", "Segoe UI", system-ui, sans-serif;
+  --font-data: "JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #0f151b; --surface: #172029; --sunk: #121a22; --ink: #e6ecf1; --muted: #93a1ae; --line: #2a3642;
+  --accent: #f0a04b; --accent-soft: #3a2a19; --px: #4fb3c4; --p0: #9aa6b2; color-scheme: dark } }
+:root[data-theme="dark"] {
+  --bg: #0f151b; --surface: #172029; --sunk: #121a22; --ink: #e6ecf1; --muted: #93a1ae; --line: #2a3642;
+  --accent: #f0a04b; --accent-soft: #3a2a19; --px: #4fb3c4; --p0: #9aa6b2; color-scheme: dark }
+* { box-sizing: border-box }
+body { background: var(--bg); color: var(--ink); font-family: var(--font-ui); font-size: 15px; line-height: 1.65; margin: 0 }
+.layout { max-width: 1180px; margin: 0 auto; display: grid; grid-template-columns: 230px minmax(0, 1fr); gap: 36px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-block: 28px 64px }
+@media (max-width: 860px) { .layout { grid-template-columns: 1fr } nav.toc { position: static } }
+nav.toc { position: sticky; top: calc(env(safe-area-inset-top, 0px) + 20px); align-self: start; display: grid; gap: 2px; font-size: .88rem }
+nav.toc a { color: var(--muted); text-decoration: none; padding: 4px 10px; border-left: 2px solid var(--line) }
+nav.toc a:hover, nav.toc a:focus-visible { color: var(--ink); border-left-color: var(--accent); outline: none }
+nav.toc .back { margin-bottom: 12px; border: 1px solid var(--line); border-radius: 8px; color: var(--ink); background: var(--surface) }
+main { min-width: 0; display: grid; gap: 34px }
+section { display: grid; gap: 12px; min-width: 0 }
+h1 { font-size: 1.8rem; margin: 0; letter-spacing: -0.01em; text-wrap: balance }
+h2 { font-size: 1.25rem; margin: 0; padding-top: 6px; border-top: 1px solid var(--line); text-wrap: balance }
+h3 { font-size: 1rem; margin: 6px 0 0 }
+p, li { max-width: 72ch; margin: 0 }
+ul, ol { margin: 0; padding-left: 1.3em; display: grid; gap: 4px }
+.eyebrow { font-size: .72rem; text-transform: uppercase; letter-spacing: .09em; color: var(--muted); font-weight: 600 }
+.lead { font-size: 1.05rem; color: var(--muted) }
+code, .mono { font-family: var(--font-data); font-size: .86em; background: var(--sunk); border: 1px solid var(--line); border-radius: 5px; padding: 0 5px }
+pre { font-family: var(--font-data); font-size: .82rem; background: var(--sunk); border: 1px solid var(--line); border-radius: 8px; padding: 12px 14px; overflow-x: auto; margin: 0; line-height: 1.5 }
+pre code { background: none; border: 0; padding: 0 }
+.scroll { overflow-x: auto }
+table { border-collapse: collapse; width: 100%; font-size: .88rem }
+th, td { padding: 7px 9px; border-bottom: 1px solid var(--line); text-align: left; vertical-align: top }
+th { font-size: .72rem; text-transform: uppercase; letter-spacing: .07em; color: var(--muted) }
+td code { white-space: nowrap }
+.note { background: var(--accent-soft); border-radius: 8px; padding: 10px 14px; max-width: 80ch }
+.levels { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px }
+@media (max-width: 700px) { .levels { grid-template-columns: 1fr } }
+.level { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 12px 14px; display: grid; gap: 4px }
+.level.here { border-color: var(--accent); box-shadow: inset 0 0 0 1px var(--accent) }
+.level b { font-size: .95rem }
+.level span { font-size: .85rem; color: var(--muted) }
+figure { margin: 0; background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 14px; overflow-x: auto }
+figcaption { font-size: .82rem; color: var(--muted); margin-top: 6px }
+svg text { font-family: var(--font-ui) }
+.formula { font-family: var(--font-data); background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 10px 14px; overflow-x: auto; white-space: nowrap }
+</style>
+
+<div class="layout">
+  <nav class="toc" aria-label="Mục lục">
+    <a class="back" href="/">← Về dashboard</a>
+    <a href="#tong-quan">Tổng quan</a>
+    <a href="#kien-truc">Kiến trúc</a>
+    <a href="#mo-hinh">Mô hình mô phỏng</a>
+    <a href="#thuat-toan">Thuật toán điều phối</a>
+    <a href="#ai">AI và LLM</a>
+    <a href="#thoi-gian-thuc">Thời gian thực và MQTT</a>
+    <a href="#kich-ban">12 kịch bản</a>
+    <a href="#kiem-chung">Kiểm chứng và thí nghiệm</a>
+    <a href="#api">API</a>
+    <a href="#trien-khai">Cài đặt và triển khai</a>
+    <a href="#gioi-han">Giới hạn</a>
+  </nav>
+
+  <main>
+    <section id="tong-quan">
+      <span class="eyebrow">Tài liệu kỹ thuật</span>
+      <h1>Digital Twin hệ thống 6 thang máy</h1>
+      <p class="lead">Tòa nhà học 13 tầng (B2, B1, G, 1–10), 6 cabin A1–A6. Hệ thống mô phỏng, tối ưu điều phối và chạy song song với một tòa nhà theo thời gian thực: nhận dữ liệu cảm biến, dự báo, rồi gửi lệnh phân vai cabin.</p>
+      <p>Hiện trạng (P0): A1 dừng mọi tầng; A2, A3 dừng B2, B1, G, 5; A4–A6 dừng G, 8. Tầng 1–4, 6, 7, 9, 10 chỉ có A1 phục vụ, nên A1 là nút thắt trong khi A2–A6 rảnh. Dự án tìm cách giao vai cho từng cabin để chia tải.</p>
+      <div class="levels">
+        <div class="level"><b>Mô hình số</b><span>Không có dữ liệu thật. Mô phỏng 12 kịch bản, so sánh P0–P4.</span></div>
+        <div class="level"><b>Digital shadow</b><span>Dữ liệu thật đi một chiều vào twin: thời khóa biểu, báo cáo hàng chờ từ form QR.</span></div>
+        <div class="level here"><b>Digital twin (đã kiểm chứng với tòa nhà ảo)</b><span>Hai chiều qua MQTT: tòa nhà gửi cảm biến, twin gửi lệnh phân vai. Nối thang thật chỉ cần thay nguồn dữ liệu.</span></div>
+      </div>
+    </section>
+
+    <section id="kien-truc">
+      <h2>Kiến trúc</h2>
+      <p>Twin không đọc được bên trong tòa nhà. Hai bên chỉ trao đổi tin nhắn JSON qua bus: MQTT khi đặt <code>MQTT_HOST</code>, hoặc đường truyền nội bộ trong cùng tiến trình.</p>
+      <figure>
+        <svg viewBox="0 0 760 330" role="img" aria-label="Sơ đồ kiến trúc: tòa nhà gửi cảm biến qua MQTT cho twin, twin gửi lệnh phân vai ngược lại" width="100%">
+          <defs><marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="var(--muted)"/></marker></defs>
+          <text x="20" y="26" font-size="15" font-weight="600" fill="var(--ink)">Dữ liệu chảy vào twin, lệnh phân vai chảy ngược ra tòa nhà</text>
+          <rect x="20" y="52" width="190" height="150" rx="8" fill="none" stroke="var(--muted)"/>
+          <text x="115" y="76" text-anchor="middle" font-size="13" font-weight="600" fill="var(--ink)">Tòa nhà</text>
+          <text x="115" y="96" text-anchor="middle" font-size="11.5" fill="var(--muted)">ảo (realtime/building.py)</text>
+          <text x="115" y="112" text-anchor="middle" font-size="11.5" fill="var(--muted)">hoặc thang thật</text>
+          <text x="36" y="140" font-size="11.5" fill="var(--ink)">• vị trí, cửa, cân tải</text>
+          <text x="36" y="158" font-size="11.5" fill="var(--ink)">• nút gọi tầng</text>
+          <text x="36" y="176" font-size="11.5" fill="var(--ink)">• đếm lượt qua cửa</text>
+          <rect x="285" y="96" width="150" height="62" rx="8" fill="var(--accent)" fill-opacity="0.12" stroke="var(--accent)" stroke-width="2"/>
+          <text x="360" y="123" text-anchor="middle" font-size="13" font-weight="600" fill="var(--ink)">Bus</text>
+          <text x="360" y="141" text-anchor="middle" font-size="11.5" fill="var(--muted)">MQTT / nội bộ</text>
+          <rect x="510" y="52" width="230" height="190" rx="8" fill="none" stroke="var(--px)" stroke-width="2"/>
+          <text x="625" y="76" text-anchor="middle" font-size="13" font-weight="600" fill="var(--ink)">Digital Twin</text>
+          <text x="526" y="102" font-size="11.5" fill="var(--ink)">1. Bản sao trạng thái</text>
+          <text x="526" y="122" font-size="11.5" fill="var(--ink)">2. AI nhận diện chế độ</text>
+          <text x="526" y="142" font-size="11.5" fill="var(--ink)">3. Ước lượng hàng chờ</text>
+          <text x="526" y="162" font-size="11.5" fill="var(--ink)">4. Phân vai P2 / P4</text>
+          <text x="526" y="182" font-size="11.5" fill="var(--ink)">5. Nhìn trước 10 phút</text>
+          <text x="526" y="202" font-size="11.5" fill="var(--ink)">6. Lệnh cmd/roles</text>
+          <path d="M210 112H285" fill="none" stroke="var(--muted)" stroke-width="1.25" marker-end="url(#ar)"/>
+          <text x="247" y="104" text-anchor="middle" font-size="11" fill="var(--muted)">state, stop</text>
+          <path d="M435 112H510" fill="none" stroke="var(--muted)" stroke-width="1.25" marker-end="url(#ar)"/>
+          <path d="M510 146H435" fill="none" stroke="var(--muted)" stroke-width="1.25" marker-end="url(#ar)"/>
+          <text x="472" y="164" text-anchor="middle" font-size="11" fill="var(--muted)">cmd/roles</text>
+          <path d="M285 146H210" fill="none" stroke="var(--muted)" stroke-width="1.25" marker-end="url(#ar)"/>
+          <rect x="20" y="262" width="160" height="48" rx="8" fill="none" stroke="var(--muted)"/>
+          <text x="100" y="291" text-anchor="middle" font-size="12" fill="var(--ink)">Thời khóa biểu (CSV / Sheet)</text>
+          <rect x="200" y="262" width="150" height="48" rx="8" fill="none" stroke="var(--muted)"/>
+          <text x="275" y="291" text-anchor="middle" font-size="12" fill="var(--ink)">Form QR báo hàng chờ</text>
+          <rect x="370" y="262" width="170" height="48" rx="8" fill="none" stroke="var(--muted)"/>
+          <text x="455" y="291" text-anchor="middle" font-size="12" fill="var(--ink)">Dashboard + what-if</text>
+          <rect x="560" y="262" width="180" height="48" rx="8" fill="none" stroke="var(--muted)"/>
+          <text x="650" y="291" text-anchor="middle" font-size="12" fill="var(--ink)">Trợ lý LLM (Groq / Claude)</text>
+          <path d="M100 262V202" fill="none" stroke="var(--muted)" stroke-width="1.25" marker-end="url(#ar)"/>
+          <path d="M320 262V158" fill="none" stroke="var(--muted)" stroke-width="1.25" marker-end="url(#ar)"/>
+          <path d="M540 286H560" fill="none" stroke="var(--muted)" stroke-width="1.25"/>
+          <path d="M410 262V158" fill="none" stroke="var(--muted)" stroke-width="1.25" marker-end="url(#ar)"/>
+          <path d="M650 262V242" fill="none" stroke="var(--muted)" stroke-width="1.25" marker-end="url(#ar)"/>
+        </svg>
+        <figcaption>Thời khóa biểu cấp nhu cầu cho tòa nhà ảo và làm thông tin trước cho twin. Form QR, dashboard và trợ lý LLM đều đọc hoặc ghi qua twin.</figcaption>
+      </figure>
+      <div class="scroll"><table>
+        <thead><tr><th>Thư mục / tệp</th><th>Vai trò</th></tr></thead>
+        <tbody>
+          <tr><td><code>simulation/</code></td><td>Mô phỏng bước 0,1 s, sinh khách, 12 kịch bản, KPI, cảm biến có sai số, what-if</td></tr>
+          <tr><td><code>algorithms/</code></td><td>P0 (FCFS), vai trò cabin, bộ phân vai (planner), P1–P4</td></tr>
+          <tr><td><code>ai/</code></td><td>Đặc trưng cửa sổ trượt, Random Forest nhận diện chế độ giao thông</td></tr>
+          <tr><td><code>optimization/</code></td><td>Optuna dò tham số P2</td></tr>
+          <tr><td><code>realtime/</code></td><td>Bus MQTT, tòa nhà ảo, twin, thời khóa biểu, quản lý phiên trực tiếp</td></tr>
+          <tr><td><code>llm/</code></td><td>Trợ lý có công cụ: chạy mô phỏng, what-if, đọc trạng thái trực tiếp</td></tr>
+          <tr><td><code>experiments/</code></td><td>Ma trận thí nghiệm, Pareto, độ nhạy, ngưỡng, thống kê</td></tr>
+          <tr><td><code>web_app.py</code>, <code>templates/</code></td><td>Dashboard, form báo hàng chờ, trang tài liệu này</td></tr>
+        </tbody>
+      </table></div>
+    </section>
+
+    <section id="mo-hinh">
+      <h2>Mô hình mô phỏng</h2>
+      <p>Mô phỏng sự kiện theo bước 0,1 s. Hành khách chỉ lên cabin có vai phục vụ được cả tầng đi lẫn tầng đến. Cabin đi qua tầng có cuộc gọi cùng chiều thì bộ điều phối quyết định dừng, đi tiếp hay bỏ qua do đầy.</p>
+      <div class="scroll"><table>
+        <thead><tr><th>Tham số</th><th>Giá trị giả định</th><th>Ghi chú</th></tr></thead>
+        <tbody>
+          <tr><td>Thời gian chạy 1 tầng</td><td>2,2 s</td><td>bỏ qua gia tốc</td></tr>
+          <tr><td>Đóng + mở cửa</td><td>4 s mỗi lần dừng</td><td></td></tr>
+          <tr><td>Mỗi khách lên hoặc xuống</td><td>0,6 s</td><td></td></tr>
+          <tr><td>Sức chứa hữu dụng</td><td>10 hoặc 15 người</td><td>danh định 20 người, 1.350 kg</td></tr>
+          <tr><td>Cảm biến</td><td>cân tải (ước số người = kg / 65), hồng ngoại ở cửa (95 % lượt), nút gọi (có / không)</td><td>không dùng camera</td></tr>
+          <tr><td>Năng lượng</td><td>1 EU mỗi tầng × (1 + mất cân bằng tải – đối trọng), 1,5 EU mỗi lần khởi động, chờ 0,03 EU/s, standby 0,006 EU/s</td><td>đơn vị tương đối, không phải kWh</td></tr>
+        </tbody>
+      </table></div>
+      <p>Chỉ số: AWT (tính cả khách chưa được đón), P90/P95, thời gian trong cabin, thông lượng, backlog, bypass, số lần dừng, năng lượng, AWT tầng tệ nhất, chỉ số công bằng Jain, thời gian giải tỏa.</p>
+    </section>
+
+    <section id="thuat-toan">
+      <h2>Thuật toán điều phối</h2>
+      <div class="scroll"><table>
+        <thead><tr><th>Cấu hình</th><th>Cách làm</th></tr></thead>
+        <tbody>
+          <tr><td><b>P0</b> Hiện trạng</td><td>Tuyến cố định, cuộc gọi cũ nhất được cabin rảnh gần nhất nhận. Cân tải chỉ báo đầy ở 80 % tải định mức theo kg.</td></tr>
+          <tr><td><b>P1</b> Phân vai tĩnh</td><td>Dự kiến nhu cầu từ thời khóa biểu, chia tầng thành nhóm và giao Express/Zone một lần.</td></tr>
+          <tr><td><b>P2</b> Điều phối động</td><td>Mỗi 20 s: AI nhận diện chế độ, ước lượng nhu cầu từ cảm biến, chọn phục vụ chung hoặc chia vùng, có hysteresis và thời gian giữ vai tối thiểu.</td></tr>
+          <tr><td><b>P3</b> Thấp điểm</td><td>A1 và A2 dừng mọi tầng theo yêu cầu, cabin khác standby, đánh thức khi có khách chờ quá 45 s.</td></tr>
+          <tr><td><b>P4</b> P2 tiết kiệm</td><td>Như P2 nhưng chỉ giữ số cabin cần cho hệ số sử dụng mục tiêu 0,7, cộng thêm phạt năng lượng trong hàm chi phí.</td></tr>
+        </tbody>
+      </table></div>
+      <h3>Bộ phân vai</h3>
+      <p>Chia các tầng có nhu cầu thành nhóm liên tiếp; nhóm g được giao n<sub>g</sub> cabin. Duyệt toàn bộ cách chia (tối đa 512 × 6 phương án), chọn phương án có thời gian giải tỏa lớn nhất nhỏ nhất:</p>
+      <div class="formula">W<sub>g</sub> = D<sub>g</sub> × T<sub>vòng</sub>(g) / (n<sub>g</sub> × sức chứa) &nbsp;·&nbsp; T<sub>vòng</sub> = 2 × (tầng cao nhất − G) × 2,2 + (số tầng dừng + 1) × 4 + 2 × c × 0,6</div>
+      <p>A1 luôn Local. Ở sảnh G, A1 nhường các tầng đã có cabin chuyên trách, nhưng nhận lại mọi hành trình nếu có khách chờ quá ngưỡng (an toàn: không bỏ mặc khách).</p>
+      <h3>Phục vụ chung hay chia vùng</h3>
+      <p>P2 ước lượng hệ số sử dụng ρ = λ × T<sub>vòng</sub> / (số cabin × tải mỗi vòng). Dưới ngưỡng thì mọi cabin phục vụ chung; trên ngưỡng thì chia Express/Zone. Ngưỡng do Optuna dò.</p>
+    </section>
+
+    <section id="ai">
+      <h2>AI và LLM</h2>
+      <ul>
+        <li><b>Nhận diện chế độ giao thông</b> (cao điểm lên, xuống, hai chiều, liên tầng, thấp điểm): Random Forest trên 11 đặc trưng của cửa sổ 2 phút, gồm lượt lên/xuống ở sảnh và tầng trên, nút gọi theo chiều, tuổi cuộc gọi. Huấn luyện bằng mô phỏng có nhiễu cảm biến, kiểm tra trên seed khác.</li>
+        <li><b>Optuna</b> dò 11 tham số của P2 (chu kỳ phân vai, thời gian giữ vai, ngưỡng phục vụ chung, trọng số hàm chi phí…), kiểm định trên seed không dùng khi dò.</li>
+        <li><b>Trợ lý LLM</b> trả lời bằng cách gọi công cụ: chạy mô phỏng, so sánh P0–P4, what-if, đọc kết quả nhiều seed, đọc trạng thái trực tiếp và viết báo cáo vận hành. Hỗ trợ Groq, Claude, API tương thích OpenAI; không có khóa thì chạy ngoại tuyến bằng luật.</li>
+      </ul>
+    </section>
+
+    <section id="thoi-gian-thuc">
+      <h2>Thời gian thực và MQTT</h2>
+      <p>Tòa nhà ảo chạy theo đồng hồ (có thể tua nhanh), khách sinh theo thời khóa biểu. Bộ điều khiển của tòa nhà là FCFS như hiện trạng nhưng nhận lệnh phân vai. Ở chế độ <b>khép kín</b> tòa nhà áp dụng lệnh của twin; ở chế độ <b>tư vấn</b> twin chỉ đề xuất.</p>
+      <div class="scroll"><table>
+        <thead><tr><th>Chủ đề (sau tiền tố)</th><th>Chiều</th><th>Nội dung</th></tr></thead>
+        <tbody>
+          <tr><td><code>state</code></td><td>tòa nhà → twin</td><td>mỗi giây: vị trí, chiều, trạng thái cửa, cân tải (kg), nút trong cabin, vai hiện tại; nút gọi tầng (tầng, chiều, tuổi)</td></tr>
+          <tr><td><code>stop</code></td><td>tòa nhà → twin</td><td>mỗi lần mở cửa: lượt lên/xuống (hồng ngoại), tải ước lượng, còn người chờ hay không</td></tr>
+          <tr><td><code>cmd/roles</code></td><td>twin → tòa nhà</td><td>vai mới cho các cabin thay đổi</td></tr>
+          <tr><td><code>report</code></td><td>người dùng → twin</td><td>báo cáo hàng chờ từ form QR</td></tr>
+          <tr><td><code>twin</code></td><td>twin → web</td><td>chế độ AI, đề xuất, ước lượng hàng chờ, dự báo 10 phút</td></tr>
+          <tr><td><code>truth</code></td><td>tòa nhà → web</td><td>số liệu thật của tòa nhà ảo để đo độ chính xác của twin; twin không đọc</td></tr>
+          <tr><td><code>cmd/fault</code>, <code>cmd/control</code>, <code>cmd/speed</code></td><td>web → tòa nhà</td><td>giả lập sự cố, đổi chế độ điều khiển, tốc độ</td></tr>
+        </tbody>
+      </table></div>
+      <h3>Ví dụ tin nhắn <code>state</code></h3>
+<pre><code>{"t": 812.0, "clock": "06:53:32", "control": "closed",
+ "cars": [{"id": "A4", "pos": 6.45, "floor": 6, "dir": 1, "state": "moving", "door": false,
+           "load_kg": 846, "car_calls": [10], "out": false,
+           "role": {"kind": "EXPRESS", "stops": [2, 10], "label": "Express 8", "dir": 1, "parking": 2}}],
+ "hall_calls": [[2, 1, 34.5], [9, -1, 6.0]]}</code></pre>
+      <h3>Chạy tòa nhà và twin thành hai tiến trình riêng</h3>
+<pre><code># .env: MQTT_HOST=broker.hivemq.com   MQTT_PREFIX=elevtwin/nhom-cua-ban
+python -m realtime.building --clock 06:40 --speed 30
+python -m realtime.twin</code></pre>
+      <p class="note">Nối thang thật: cho bộ đọc dữ liệu của thang gửi tin nhắn <code>state</code> và <code>stop</code> cùng định dạng, rồi tắt tòa nhà ảo. Twin không phải sửa.</p>
+    </section>
+
+    <section id="kich-ban">
+      <h2>12 kịch bản</h2>
+      <p>Tải tham chiếu 180 khách / 5 phút. Mức trung bình bằng số người trong bảng; mức thấp × 0,6, cao × 1,4 (Off-Peak × 0,5 và × 1,5).</p>
+      <div class="scroll"><table>
+        <thead><tr><th>Nhóm</th><th>Mã</th><th>Kịch bản</th><th>Số người</th></tr></thead>
+        <tbody>
+          <tr><td>Up-Peak</td><td>U1</td><td>Vào tiết 1 buổi sáng</td><td>300 / 15 phút</td></tr>
+          <tr><td>Up-Peak</td><td>U2</td><td>Vào ca chiều sau nghỉ trưa</td><td>240 / 20 phút</td></tr>
+          <tr><td>Up-Peak</td><td>U3</td><td>Vào hội thảo tầng 10</td><td>200 / 10 phút</td></tr>
+          <tr><td>Down-Peak</td><td>D1</td><td>Tan tiết cuối buổi sáng</td><td>300 / 15 phút</td></tr>
+          <tr><td>Down-Peak</td><td>D2</td><td>Tan ca cuối ngày</td><td>360 / 15 phút</td></tr>
+          <tr><td>Down-Peak</td><td>D3</td><td>Hết giờ thi tầng 8</td><td>120 / 5 phút</td></tr>
+          <tr><td>Inter-Floor</td><td>I1</td><td>Đổi phòng giữa hai tiết</td><td>150 / 10 phút</td></tr>
+          <tr><td>Inter-Floor</td><td>I2</td><td>Thư viện, lab, văn phòng khoa</td><td>100 / 15 phút</td></tr>
+          <tr><td>Inter-Floor</td><td>I3</td><td>Ngày hội câu lạc bộ tầng 5–7</td><td>200 / 30 phút</td></tr>
+          <tr><td>Off-Peak</td><td>O1</td><td>Giữa buổi chiều</td><td>30 / 15 phút</td></tr>
+          <tr><td>Off-Peak</td><td>O2</td><td>Buổi tối</td><td>15 / 15 phút</td></tr>
+          <tr><td>Off-Peak</td><td>O3</td><td>Cuối tuần</td><td>8 / 15 phút</td></tr>
+        </tbody>
+      </table></div>
+    </section>
+
+    <section id="kiem-chung">
+      <h2>Kiểm chứng và thí nghiệm</h2>
+      <ul>
+        <li><b>Ma trận chính</b>: 12 kịch bản × 3 mức tải × 2 sức chứa × 5 cấu hình × 10 seed. Cùng seed nghĩa là cùng danh sách khách cho mọi cấu hình.</li>
+        <li><b>Kiểm định</b>: Wilcoxon cặp đôi so với P0, hiệu chỉnh Holm cho toàn bộ phép so sánh, kích thước hiệu ứng rank-biserial (<code>results/stats.md</code>).</li>
+        <li><b>Kiểm chứng với công thức</b>: D3 chỉ chạy cabin Express, so thời gian giải tỏa mô phỏng với công thức giải tích (<code>results/threshold.json</code>).</li>
+        <li><b>Độ nhạy</b>: thay từng tham số giả định ±20 % để xem P2 có còn tốt hơn P0 (<code>results/sensitivity.json</code>).</li>
+        <li><b>Đánh đổi chờ – năng lượng</b>: quét hệ số sử dụng mục tiêu của chế độ eco, vẽ điểm Pareto (<code>results/pareto.json</code>).</li>
+        <li><b>Chia vùng hay phục vụ chung</b>: quét lượng khách tới rất cao ở U1 và D2.</li>
+        <li><b>Ablation</b>: P2 bỏ thời khóa biểu, thay Random Forest bằng luật, cảm biến hoàn hảo.</li>
+        <li><b>Độ chính xác của twin khi chạy trực tiếp</b>: so số người chờ twin ước lượng với số thật của tòa nhà ảo (sai số tuyệt đối trung bình).</li>
+      </ul>
+      <h3>Kết quả chính (tải cao, sức chứa 15, trung bình 10 seed)</h3>
+      <div class="scroll"><table>
+        <thead><tr><th>Kịch bản</th><th>P0 AWT / năng lượng</th><th>P2 AWT / năng lượng</th><th>P4 eco AWT / năng lượng</th></tr></thead>
+        <tbody>
+          <tr><td>U1 Vào tiết 1</td><td>274 s / 2.010 EU</td><td>9 s / 2.534 EU</td><td>14 s / 1.916 EU</td></tr>
+          <tr><td>U2 Vào ca chiều</td><td>113 s / 2.068 EU</td><td>5 s / 3.383 EU</td><td>15 s / 1.832 EU</td></tr>
+          <tr><td>D1 Tan tiết trưa</td><td>374 s / 1.591 EU</td><td>46 s / 1.491 EU</td><td>73 s / 1.297 EU</td></tr>
+          <tr><td>D2 Tan ca cuối ngày</td><td>508 s / 1.606 EU</td><td>77 s / 1.617 EU</td><td>107 s / 1.542 EU</td></tr>
+          <tr><td>D3 Hết giờ thi tầng 8</td><td>60 s / 566 EU</td><td>20 s / 655 EU</td><td>72 s / 639 EU</td></tr>
+          <tr><td>I1 Đổi phòng</td><td>121 s / 949 EU</td><td>13 s / 1.483 EU</td><td>22 s / 1.090 EU</td></tr>
+          <tr><td>O2 Buổi tối</td><td>16 s / 524 EU</td><td>6 s / 450 EU</td><td>8 s / 387 EU</td></tr>
+        </tbody>
+      </table></div>
+      <ul>
+        <li><b>Kiểm định</b>: 288 phép so sánh với P0, t-test cặp đôi trên log AWT, hiệu chỉnh Holm. P2 tốt hơn có ý nghĩa ở 68/72 tổ hợp; 4 tổ hợp còn lại là O2, O3 ở mức tải thấp (8–15 người, khác biệt nhỏ). P4 tệ hơn P0 có ý nghĩa ở 1 tổ hợp (D3 tải thấp).</li>
+        <li><b>Đánh đổi chờ – năng lượng</b>: P2 chờ ít nhất nhưng ở giờ cao điểm lên tốn hơn P0 khoảng 72 %. Chế độ eco với u = 0,9 giữ AWT bằng 9 % của P0 mà năng lượng gần bằng P0 (1,01×). Ở U1, U2, D1, D2 và thấp điểm, P4 vừa chờ ít hơn vừa tốn ít năng lượng hơn P0. Ngoại lệ: D3 (một tầng xả 120 người trong 5 phút), P4 giữ quá ít cabin nên chờ lâu hơn P0.</li>
+        <li><b>Độ nhạy ±20 %</b> (thời gian chạy tầng, cửa, mỗi khách, lượng khách): P2 tốt hơn P0 ở mọi lượt chạy, mức giảm AWT nhỏ nhất 44 %.</li>
+        <li><b>Kiểm chứng công thức</b>: D3 với 1 cabin Express, mô phỏng lệch công thức dưới 8 % ở mọi mức tải (ví dụ 125 người: 541 s so với 551 s).</li>
+        <li><b>Chia vùng hay phục vụ chung</b>: trong tòa nhà này, phục vụ chung luôn tốt hơn chia Express/Zone, tới 960 người ở U1 và 990 người ở D2. Khoảng cách thu hẹp dần ở tải rất cao (U1 960 người: 104 s so với 99 s), nên chia vùng chỉ có thể có lợi khi tải vượt khoảng 3 lần mức thiết kế.</li>
+        <li><b>Sự cố</b>: A1 hỏng 10 phút ở U1 làm AWT của P0 tăng từ 167 s lên 455 s, vì các tầng 1–4, 6, 7, 9, 10 mất thang; P2 phân vai lại nên chỉ tăng từ 7 s lên 10 s.</li>
+      </ul>
+      <p>Chi tiết ở mục "Kết quả thí nghiệm" trên dashboard và trong thư mục <code>results/</code>.</p>
+    </section>
+
+    <section id="api">
+      <h2>API</h2>
+      <div class="scroll"><table>
+        <thead><tr><th>Phương thức</th><th>Đường dẫn</th><th>Mô tả</th></tr></thead>
+        <tbody>
+          <tr><td>GET</td><td><code>/api/meta</code></td><td>Kịch bản, cấu hình, tầng, cabin</td></tr>
+          <tr><td>POST</td><td><code>/api/run</code></td><td><code>{scenario, level, capacity, config, seed, sensor_noise}</code> → chạy P0 và cấu hình được chọn</td></tr>
+          <tr><td>POST</td><td><code>/api/whatif</code></td><td><code>{scenario, fault_car, fault_start_min, fault_minutes, demand, config}</code></td></tr>
+          <tr><td>GET</td><td><code>/api/results</code></td><td>Kết quả thí nghiệm, Pareto, độ nhạy, thống kê</td></tr>
+          <tr><td>POST</td><td><code>/api/live/start</code></td><td><code>{clock: "06:40", speed: 30, control: "closed"}</code></td></tr>
+          <tr><td>GET</td><td><code>/api/live/state</code></td><td>Trạng thái tòa nhà, twin, độ chính xác</td></tr>
+          <tr><td>POST</td><td><code>/api/live/cmd</code></td><td><code>{kind: "fault", car, minutes}</code> · <code>{kind: "control", mode}</code> · <code>{kind: "speed", speed}</code></td></tr>
+          <tr><td>POST</td><td><code>/api/live/report</code></td><td><code>{floor: "8", count: 20}</code> báo hàng chờ</td></tr>
+          <tr><td>POST</td><td><code>/api/live/stop</code></td><td>Dừng phiên trực tiếp</td></tr>
+          <tr><td>POST</td><td><code>/api/chat</code></td><td><code>{message, history, context}</code> → trợ lý LLM</td></tr>
+          <tr><td>GET</td><td><code>/bao-cao</code>, <code>/docs</code></td><td>Form báo hàng chờ cho điện thoại, trang tài liệu</td></tr>
+        </tbody>
+      </table></div>
+    </section>
+
+    <section id="trien-khai">
+      <h2>Cài đặt và triển khai</h2>
+      <h3>Trên máy</h3>
+<pre><code>pip install -r requirements.txt
+python -m pytest -q
+python web_app.py            # http://127.0.0.1:5000</code></pre>
+      <p>Tạo file <code>.env</code> cạnh <code>web_app.py</code> (xem <code>.env.example</code>): <code>GROQ_API_KEY</code> cho trợ lý, <code>MQTT_HOST</code> nếu muốn dùng MQTT thật, <code>TIMETABLE_URL</code> nếu đọc thời khóa biểu từ Google Sheet đã công bố dạng CSV.</p>
+      <h3>Lên mạng</h3>
+      <ol>
+        <li>Đưa project lên GitHub; <code>.gitignore</code> đã chặn <code>.env</code>.</li>
+        <li><b>Render</b>: New → Blueprint → chọn repo (dùng <code>render.yaml</code>), nhập <code>GROQ_API_KEY</code> trong mục Environment.</li>
+        <li><b>Hugging Face Spaces</b>: tạo Space loại Docker, đẩy code lên, thêm <code>GROQ_API_KEY</code> trong Settings → Secrets. Dockerfile đã dùng cổng 7860.</li>
+        <li>Gói miễn phí cho máy chủ ngủ khi không ai truy cập; lần mở đầu mất 30–60 s.</li>
+      </ol>
+      <h3>Thời khóa biểu từ Google Sheet</h3>
+      <p>Tạo sheet với các cột <code>tang, phong, mon, bat_dau, ket_thuc, si_so</code> (giờ dạng 07:00). File → Chia sẻ → Công bố lên web → định dạng CSV, rồi dán đường link vào <code>TIMETABLE_URL</code>.</p>
+    </section>
+
+    <section id="gioi-han">
+      <h2>Giới hạn</h2>
+      <ul>
+        <li>Tham số thời gian và mô hình cảm biến là giả định, chưa đo ở thang thật; phân tích độ nhạy cho biết kết luận chịu được sai lệch ±20 %.</li>
+        <li>Tòa nhà ảo dùng cùng bộ mô phỏng với twin, nên độ chính xác đo được là trong điều kiện lý tưởng hơn thực tế.</li>
+        <li>Đổi tuyến dừng của A2–A6 là phương án điều phối giả định; điều khiển khép kín với thang thật cần hãng thang tham gia và không được can thiệp mạch an toàn.</li>
+        <li>Năng lượng là đơn vị tương đối EU; bỏ qua gia tốc và tái sinh năng lượng.</li>
+        <li>Số khách và tỷ lệ chọn thang (70 %) là giá trị thiết kế; thay bằng khảo sát hoặc dữ liệu quẹt thẻ khi có.</li>
+      </ul>
+    </section>
+  </main>
+</div>

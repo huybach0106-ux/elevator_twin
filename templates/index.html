@@ -1,0 +1,1086 @@
+<title>Bản sao số Thang máy A1–A6</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+/* Bố cục: "bàn điều khiển" – hai giếng thang song song là trung tâm, các bảng dữ liệu xếp lưới bên dưới */
+:root {
+  --bg: #eef1f4; --surface: #ffffff; --sunk: #f5f7f9; --ink: #15202b; --muted: #5b6875; --line: #d5dce3;
+  --accent: #c8711f; --accent-soft: #fbead8; --p0: #6b7785; --px: #1d7486;
+  --ok: #2e8b57; --warn: #c99415; --bad: #c8423b;
+  --font-ui: "Be Vietnam Pro", "Segoe UI", system-ui, sans-serif;
+  --font-data: "JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+  --r: 10px;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #0f151b; --surface: #172029; --sunk: #121a22; --ink: #e6ecf1; --muted: #93a1ae; --line: #2a3642;
+  --accent: #f0a04b; --accent-soft: #3a2a19; --p0: #9aa6b2; --px: #4fb3c4;
+  --ok: #4cbf7f; --warn: #e3b33c; --bad: #e86a60; color-scheme: dark } }
+:root[data-theme="dark"] {
+  --bg: #0f151b; --surface: #172029; --sunk: #121a22; --ink: #e6ecf1; --muted: #93a1ae; --line: #2a3642;
+  --accent: #f0a04b; --accent-soft: #3a2a19; --p0: #9aa6b2; --px: #4fb3c4;
+  --ok: #4cbf7f; --warn: #e3b33c; --bad: #e86a60; color-scheme: dark }
+
+* { box-sizing: border-box }
+[hidden] { display: none !important }
+body { background: var(--bg); color: var(--ink); font-family: var(--font-ui); font-size: 14px; line-height: 1.5 }
+.wrap { max-width: 1320px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-block: 20px 48px; display: grid; gap: 22px }
+h1, h2, h3 { margin: 0; text-wrap: balance; letter-spacing: -0.01em }
+h1 { font-size: 1.55rem; font-weight: 700 }
+h2 { font-size: 1.1rem; font-weight: 700 }
+h3 { font-size: .92rem; font-weight: 600 }
+.eyebrow { font-size: .72rem; text-transform: uppercase; letter-spacing: .09em; color: var(--muted); font-weight: 600 }
+.muted { color: var(--muted) }
+.num { font-family: var(--font-data); font-variant-numeric: tabular-nums }
+header.top { display: flex; flex-wrap: wrap; gap: 14px 28px; align-items: end; justify-content: space-between }
+.title-block { display: grid; gap: 4px; min-width: 0 }
+.title-block p { margin: 0; color: var(--muted); max-width: 70ch }
+.indicator { font-family: var(--font-data); background: var(--ink); color: var(--accent); padding: 6px 12px; border-radius: 6px;
+  font-size: 1.05rem; letter-spacing: .08em; display: inline-flex; gap: 10px; align-items: center }
+.indicator b { color: var(--bg); font-weight: 400; font-size: .75rem; letter-spacing: .1em }
+
+.controls { display: flex; flex-wrap: wrap; gap: 10px 14px; align-items: end; background: var(--surface);
+  border: 1px solid var(--line); border-radius: var(--r); padding: 12px 14px }
+.field { display: grid; gap: 3px; min-width: 0 }
+.field label { font-size: .7rem; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); font-weight: 600 }
+select, input[type=number] { font: inherit; color: var(--ink); background: var(--sunk); border: 1px solid var(--line);
+  border-radius: 7px; padding: 6px 8px; max-width: 100% }
+input[type=number] { width: 84px }
+.btn { font: inherit; font-weight: 600; border-radius: 8px; border: 1px solid var(--line); background: var(--sunk);
+  color: var(--ink); padding: 7px 14px; cursor: pointer }
+.btn.primary { background: var(--accent); border-color: var(--accent); color: #fff }
+.btn:focus-visible, select:focus-visible, input:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px }
+.btn[disabled] { opacity: .5; cursor: progress }
+.toggle { display: flex; gap: 6px; align-items: center; font-size: .85rem; padding-bottom: 6px }
+.note { font-size: .82rem; color: var(--muted); flex-basis: 100% }
+.static-banner { background: var(--accent-soft); border-radius: 8px; padding: 8px 12px; font-size: .85rem }
+
+.tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 10px }
+.tile { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); padding: 12px 14px; display: grid; gap: 4px }
+.tile .v { font-family: var(--font-data); font-size: 1.35rem; font-weight: 600 }
+.tile .sub { font-size: .8rem; color: var(--muted); display: flex; gap: 8px; align-items: center; flex-wrap: wrap }
+.delta { font-family: var(--font-data); font-size: .76rem; padding: 1px 7px; border-radius: 99px; font-weight: 600 }
+.delta.good { color: var(--ok); background: color-mix(in srgb, var(--ok) 14%, transparent) }
+.delta.bad { color: var(--bad); background: color-mix(in srgb, var(--bad) 14%, transparent) }
+.delta.flat { color: var(--muted); background: var(--sunk) }
+
+.panel { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); padding: 14px; display: grid; gap: 10px; min-width: 0; align-content: start }
+.panel-head { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; flex-wrap: wrap }
+.twin { display: grid; grid-template-columns: 1fr 1fr; gap: 14px }
+@media (max-width: 860px) { .twin { grid-template-columns: 1fr } }
+.bld-head { display: flex; justify-content: space-between; align-items: center; gap: 8px; flex-wrap: wrap }
+.tag { font-size: .74rem; font-weight: 700; letter-spacing: .04em; padding: 2px 9px; border-radius: 99px; color: #fff }
+.tag.p0 { background: var(--p0) } .tag.px { background: var(--px) }
+.mode-chip { font-size: .76rem; border: 1px solid var(--accent); color: var(--accent); border-radius: 99px; padding: 1px 9px; font-weight: 600 }
+canvas { display: block; width: 100%; max-width: 100% }
+.live { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px }
+.live div { background: var(--sunk); border-radius: 7px; padding: 5px 8px; display: grid }
+.live span { font-size: .68rem; text-transform: uppercase; letter-spacing: .07em; color: var(--muted) }
+.live b { font-family: var(--font-data); font-size: 1rem }
+
+.transport { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5; display: flex; gap: 12px; align-items: center; flex-wrap: wrap;
+  background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); padding: 8px 12px }
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 10; background: var(--bg) }
+.transport input[type=range] { flex: 1 1 220px; accent-color: var(--accent); min-width: 0 }
+.clock { font-family: var(--font-data); font-size: 1rem; min-width: 92px }
+.speed { display: flex; gap: 4px }
+.speed button { font: inherit; font-size: .78rem; border: 1px solid var(--line); background: var(--sunk); color: var(--ink); border-radius: 6px; padding: 3px 8px; cursor: pointer }
+.speed button.on { background: var(--ink); color: var(--bg); border-color: var(--ink) }
+
+.grid2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px }
+.grid3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px }
+@media (max-width: 1000px) { .grid3 { grid-template-columns: 1fr 1fr } }
+@media (max-width: 760px) { .grid2, .grid3 { grid-template-columns: 1fr } }
+.legend { display: flex; flex-wrap: wrap; gap: 6px 14px; font-size: .78rem; color: var(--muted) }
+.legend i { display: inline-block; width: 10px; height: 10px; border-radius: 2px; margin-right: 5px; vertical-align: -1px }
+.scroll { overflow-x: auto }
+table { border-collapse: collapse; width: 100%; font-size: .84rem }
+th, td { padding: 6px 8px; border-bottom: 1px solid var(--line); text-align: right; white-space: nowrap }
+th:first-child, td:first-child { text-align: left }
+th { font-size: .7rem; text-transform: uppercase; letter-spacing: .07em; color: var(--muted); font-weight: 600 }
+td.num { font-family: var(--font-data) }
+.cell-heat { border-radius: 5px; padding: 3px 7px; font-family: var(--font-data); font-weight: 600 }
+.section-head { display: grid; gap: 4px }
+.section-head p { margin: 0; color: var(--muted); max-width: 80ch }
+.obs-row td { font-size: .8rem }
+.empty { color: var(--muted); font-size: .85rem; padding: 10px 0 }
+.foot { color: var(--muted); font-size: .8rem; max-width: 90ch }
+
+.tech-row { display: flex; flex-wrap: wrap; gap: 8px 12px; align-items: end }
+.chat-log { display: grid; gap: 10px; align-content: start; max-height: 460px; min-height: 260px; overflow-y: auto; padding: 4px 2px }
+.msg { max-width: 92%; padding: 9px 12px; border-radius: 10px; font-size: .88rem; line-height: 1.55; overflow-wrap: anywhere }
+.msg.user { justify-self: end; background: var(--ink); color: var(--bg) }
+.msg.bot { justify-self: start; background: var(--sunk); border: 1px solid var(--line) }
+.msg .tools { margin-top: 6px; display: flex; flex-wrap: wrap; gap: 4px }
+.msg .tools span { font-family: var(--font-data); font-size: .7rem; color: var(--muted); border: 1px solid var(--line); border-radius: 5px; padding: 1px 6px }
+.chips { display: flex; flex-wrap: wrap; gap: 6px }
+.chips button { font: inherit; font-size: .78rem; border: 1px solid var(--line); background: var(--surface); color: var(--ink); border-radius: 99px; padding: 3px 10px; cursor: pointer }
+.chips button:hover { border-color: var(--accent) }
+.chat-form { display: flex; gap: 8px }
+.chat-form input { flex: 1; min-width: 0; font: inherit; color: var(--ink); background: var(--sunk); border: 1px solid var(--line); border-radius: 8px; padding: 8px 10px }
+.prov { font-size: .74rem; font-family: var(--font-data); color: var(--muted) }
+.log { display: grid; gap: 4px; font-size: .8rem; max-height: 200px; overflow-y: auto }
+.log div { display: grid; grid-template-columns: 70px 1fr; gap: 8px; border-bottom: 1px dashed var(--line); padding-bottom: 3px }
+.log span:first-child { font-family: var(--font-data); color: var(--muted) }
+.pill { font-size: .74rem; font-weight: 600; border-radius: 99px; padding: 2px 9px; background: var(--sunk); border: 1px solid var(--line) }
+.pill.on { color: var(--ok); border-color: var(--ok) }
+.kv { display: grid; grid-template-columns: auto 1fr; gap: 4px 12px; font-size: .84rem }
+.kv b { font-family: var(--font-data) }
+.chat-fab { position: fixed; right: calc(16px + env(safe-area-inset-right, 0px)); bottom: calc(16px + env(safe-area-inset-bottom, 0px));
+  z-index: 30; display: inline-flex; align-items: center; gap: 8px; font: inherit; font-weight: 600; color: #fff; background: var(--accent);
+  border: 0; border-radius: 99px; padding: 11px 16px; cursor: pointer; box-shadow: 0 6px 20px rgba(0,0,0,.18) }
+.chat-fab:focus-visible, .chat-x:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px }
+.chat-box { position: fixed; right: calc(16px + env(safe-area-inset-right, 0px)); bottom: calc(16px + env(safe-area-inset-bottom, 0px));
+  z-index: 31; width: min(390px, calc(100vw - 32px)); height: min(580px, calc(100vh - 96px)); display: flex; flex-direction: column; gap: 10px;
+  background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 12px; box-shadow: 0 12px 40px rgba(0,0,0,.22) }
+.chat-box[hidden] { display: none !important }
+.chat-head { display: flex; justify-content: space-between; align-items: center; gap: 8px; padding-bottom: 8px; border-bottom: 1px solid var(--line) }
+.chat-title { display: grid; gap: 1px; min-width: 0 }
+.chat-title b { font-size: .98rem }
+.chat-x { border: 0; background: var(--sunk); color: var(--ink); width: 32px; height: 32px; border-radius: 8px; cursor: pointer; display: grid; place-items: center; flex: none }
+.chat-box .chat-log { flex: 1; max-height: none; min-height: 0 }
+.chat-box .chips { flex-wrap: nowrap; overflow-x: auto; padding-bottom: 2px }
+.chat-box .chips button { white-space: nowrap; flex: none }
+@media (max-width: 520px) {
+  .chat-box { left: 0; right: 0; bottom: 0; width: auto; height: min(82vh, 640px); border-radius: 14px 14px 0 0;
+    padding-left: max(12px, env(safe-area-inset-left, 0px)); padding-right: max(12px, env(safe-area-inset-right, 0px));
+    padding-bottom: calc(12px + env(safe-area-inset-bottom, 0px)) }
+}
+@media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important } }
+</style>
+
+<div class="wrap">
+  <header class="top">
+    <div class="title-block">
+      <span class="eyebrow">Digital Twin · Tòa nhà học 13 tầng · 6 cabin</span>
+      <h1>Bản sao số Thang máy A1–A6</h1>
+      <p>Hiện trạng P0 và phương án tối ưu chạy trên cùng một danh sách sinh viên. Cảm biến cân tải và hồng ngoại ở cửa cấp số liệu cho bộ điều phối; AI nhận diện chế độ giao thông và phân vai từng cabin.</p>
+    </div>
+    <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap"><a class="btn" href="/docs" id="docs-link">Tài liệu</a>
+    <div class="indicator" aria-hidden="true"><b>TẦNG</b><span id="ind-floor">G</span><span id="ind-arrow">▲</span></div></div>
+  </header>
+
+  <div class="controls" id="controls">
+    <div class="field"><label for="sel-sc">Tình huống</label><select id="sel-sc"></select></div>
+    <div class="field"><label for="sel-lv">Mức tải</label><select id="sel-lv"></select></div>
+    <div class="field"><label for="sel-cap">Sức chứa hữu dụng</label>
+      <select id="sel-cap"><option value="10">10 người/chuyến</option><option value="15" selected>15 người/chuyến</option></select></div>
+    <div class="field"><label for="sel-cfg">So sánh P0 với</label><select id="sel-cfg"></select></div>
+    <div class="field"><label for="inp-seed">Seed</label><input id="inp-seed" type="number" value="42" min="1"></div>
+    <label class="toggle" for="chk-noise"><input id="chk-noise" type="checkbox" checked> Nhiễu cảm biến</label>
+    <button class="btn primary" id="btn-run">Chạy mô phỏng</button>
+    <div class="note" id="sc-note"></div>
+    <div class="static-banner" id="static-banner" hidden>Bản xem trước: dữ liệu chạy sẵn với seed 42, sức chứa 15, mức tải trung bình. Chạy <span class="num">python web_app.py</span> để đổi mọi tham số.</div>
+  </div>
+
+  <section class="tiles" id="tiles" aria-label="Chỉ số chính"></section>
+
+  <div class="transport" aria-label="Điều khiển phát lại">
+    <button class="btn" id="btn-play" aria-label="Phát / tạm dừng">▶ Phát</button>
+    <span class="clock" id="clock">t = 0 s</span>
+    <input type="range" id="scrub" min="0" max="100" value="0" step="0.1" aria-label="Thời điểm">
+    <div class="speed" id="speed">
+      <button data-s="1">1×</button><button data-s="4">4×</button><button data-s="10" class="on">10×</button><button data-s="30">30×</button>
+    </div>
+  </div>
+
+  <section class="twin">
+    <div class="panel">
+      <div class="bld-head"><h2><span class="tag p0">P0</span> <span id="title-p0">Hiện trạng</span></h2><span class="muted" id="sub-p0"></span></div>
+      <canvas id="bld-p0" height="470" aria-label="Mô phỏng hiện trạng"></canvas>
+      <div class="live" id="live-p0"></div>
+    </div>
+    <div class="panel">
+      <div class="bld-head"><h2><span class="tag px" id="tag-px">P2</span> <span id="title-px"></span></h2><span class="mode-chip" id="mode-px" hidden></span></div>
+      <canvas id="bld-px" height="470" aria-label="Mô phỏng phương án tối ưu"></canvas>
+      <div class="live" id="live-px"></div>
+    </div>
+  </section>
+  <div class="legend" id="role-legend"></div>
+
+  <section class="panel">
+    <div class="panel-head"><h2>Biểu đồ không gian – thời gian</h2>
+      <div class="legend" id="car-legend"></div></div>
+    <p class="muted" style="margin:0">Mỗi đường là quỹ đạo một cabin, chấm là lần mở cửa. Cabin chạy liên tục không nghỉ là nút thắt.</p>
+    <div class="grid2">
+      <div><h3>P0</h3><canvas id="st-p0" height="240"></canvas></div>
+      <div><h3 id="st-title-px">P2</h3><canvas id="st-px" height="240"></canvas></div>
+    </div>
+  </section>
+
+  <section class="grid2">
+    <div class="panel"><div class="panel-head"><h2>Hàng chờ theo tầng</h2><span class="muted">số người chờ, bước 5 s</span></div>
+      <div><h3>P0</h3><canvas id="hm-p0" height="190"></canvas></div>
+      <div><h3 id="hm-title-px">P2</h3><canvas id="hm-px" height="190"></canvas></div>
+    </div>
+    <div class="panel"><div class="panel-head"><h2>Vai trò từng cabin</h2><span class="muted" id="rt-sub"></span></div>
+      <canvas id="roles-px" height="250"></canvas>
+      <p class="muted" style="margin:0;font-size:.82rem">Hàng trên cùng là chế độ giao thông AI nhận diện. Mỗi hàng dưới là một cabin, màu là vai đang giữ.</p>
+    </div>
+  </section>
+
+  <section class="grid3">
+    <div class="panel"><h2>Phân phối thời gian chờ</h2><canvas id="cdf" height="220"></canvas>
+      <div class="legend"><span><i style="background:var(--p0)"></i>P0</span><span><i style="background:var(--px)"></i><span class="cmp-name">P2</span></span></div></div>
+    <div class="panel"><h2>Công bằng giữa các tầng</h2><canvas id="floors" height="220"></canvas>
+      <div class="legend"><span><i style="background:var(--p0)"></i>AWT P0</span><span><i style="background:var(--px)"></i>AWT <span class="cmp-name">P2</span></span></div></div>
+    <div class="panel"><h2>Khách mỗi cabin đã chở</h2><canvas id="carshare" height="220"></canvas>
+      <div class="legend"><span><i style="background:var(--p0)"></i>P0</span><span><i style="background:var(--px)"></i><span class="cmp-name">P2</span></span></div></div>
+  </section>
+
+  <section class="grid2">
+    <div class="panel"><div class="panel-head"><h2>Bảng KPI</h2><span class="muted">cùng hành khách, cùng seed</span></div>
+      <div class="scroll"><table id="kpi-table"></table></div></div>
+    <div class="panel"><div class="panel-head"><h2>Quan sát cảm biến cabin</h2><span class="muted" id="cam-sub">bộ điều phối chỉ đọc dữ liệu này</span></div>
+      <div class="scroll"><table id="cam-table"></table></div></div>
+  </section>
+
+  <section class="section-head">
+    <span class="eyebrow">Thời gian thực · software-in-the-loop</span>
+    <h2>Tòa nhà ảo và Digital Twin chạy trực tiếp</h2>
+    <p>Tòa nhà ảo chạy theo thời khóa biểu và chỉ gửi ra dữ liệu cảm biến thang thường có (vị trí, cửa, cân tải, nút gọi, đếm lượt qua cửa). Twin nghe qua MQTT hoặc đường truyền nội bộ, dựng bản sao, chạy AI và gửi lệnh phân vai ngược lại. Bên trái là dữ liệu thật của tòa nhà ảo, twin không đọc được; bên phải là những gì twin thấy.</p>
+  </section>
+  <section class="panel" id="live-panel">
+    <div class="tech-row">
+      <div class="field"><label for="lv-clock">Giờ bắt đầu</label><input id="lv-clock" type="time" value="06:40"></div>
+      <div class="field"><label for="lv-speed">Tốc độ</label><select id="lv-speed"><option value="1">1× (giờ thật)</option><option value="10">10×</option><option value="30" selected>30×</option><option value="60">60×</option></select></div>
+      <div class="field"><label for="lv-control">Điều khiển</label><select id="lv-control"><option value="closed">Khép kín: tòa nhà làm theo twin</option><option value="advisory">Tư vấn: twin chỉ đề xuất</option></select></div>
+      <button class="btn primary" id="lv-start">Bắt đầu</button>
+      <span class="pill" id="lv-status">Chưa chạy</span>
+    </div>
+    <div class="tech-row">
+      <div class="field"><label for="lv-fcar">Gây sự cố</label><select id="lv-fcar"><option>A1</option><option>A2</option><option>A3</option><option>A4</option><option>A5</option><option>A6</option></select></div>
+      <div class="field"><label for="lv-fmin">Phút</label><input id="lv-fmin" type="number" value="5" min="1" max="60"></div>
+      <button class="btn" id="lv-fault">Gây sự cố</button>
+      <div class="field"><label for="lv-rfloor">Báo hàng chờ: tầng</label><select id="lv-rfloor"></select></div>
+      <div class="field"><label for="lv-rcount">Số người</label><input id="lv-rcount" type="number" value="20" min="0" max="300"></div>
+      <button class="btn" id="lv-report">Gửi báo cáo</button>
+      <a class="muted" href="/bao-cao" target="_blank" rel="noopener" style="font-size:.82rem">Mở form báo hàng chờ cho điện thoại</a>
+    </div>
+    <p class="static-banner" id="lv-static" hidden>Chế độ thời gian thực cần máy chủ: chạy <span class="num">python web_app.py</span> rồi mở http://localhost:5000.</p>
+    <div class="twin">
+      <div><div class="bld-head"><h3>Tòa nhà ảo · dữ liệu thật</h3><span class="muted num" id="lv-clock-real"></span></div>
+        <canvas id="lv-real" height="430"></canvas><div class="live" id="lv-real-stats"></div></div>
+      <div><div class="bld-head"><h3>Twin · những gì twin thấy</h3><span class="mode-chip" id="lv-mode" hidden></span></div>
+        <canvas id="lv-twin" height="430"></canvas><div class="live" id="lv-twin-stats"></div></div>
+    </div>
+    <div class="grid3">
+      <div><h3>Dự báo 10 phút tới</h3><div id="lv-forecast" class="kv"></div><h3 style="margin-top:10px">Thời khóa biểu sắp tới</h3><div class="log" id="lv-upcoming"></div></div>
+      <div><h3>Lệnh twin gửi tòa nhà</h3><div class="log" id="lv-cmds"></div><h3 style="margin-top:10px">Nhật ký tòa nhà</h3><div class="log" id="lv-blog"></div></div>
+      <div><h3>Độ chính xác của twin</h3><canvas id="lv-acc" height="170"></canvas><p class="muted" style="margin:0;font-size:.8rem" id="lv-acc-note">Tổng số người đang chờ: thật và twin ước lượng.</p></div>
+    </div>
+  </section>
+
+  <section class="panel" id="whatif-panel">
+    <div class="panel-head"><h2>Thử giả định (what-if)</h2><span class="muted">chạy trên bản sao, không ảnh hưởng tòa nhà</span></div>
+    <div class="tech-row">
+      <div class="field"><label for="wi-sc">Kịch bản</label><select id="wi-sc"></select></div>
+      <div class="field"><label for="wi-car">Cabin hỏng</label><select id="wi-car"><option value="">Không</option><option>A1</option><option>A2</option><option>A3</option><option>A4</option><option>A5</option><option>A6</option></select></div>
+      <div class="field"><label for="wi-start">Hỏng từ phút</label><input id="wi-start" type="number" value="2" min="0" max="30"></div>
+      <div class="field"><label for="wi-min">Trong (phút)</label><input id="wi-min" type="number" value="10" min="1" max="60"></div>
+      <div class="field"><label for="wi-demand">Lượng khách × <b id="wi-dlab">1,0</b></label><input id="wi-demand" type="range" min="0.5" max="2" step="0.1" value="1"></div>
+      <div class="field"><label for="wi-cfg">So với</label><select id="wi-cfg"><option value="P2">P2</option><option value="P4">P4 eco</option><option value="P1">P1</option></select></div>
+      <button class="btn primary" id="wi-run">Chạy thử</button>
+    </div>
+    <div class="grid2">
+      <div class="scroll"><table id="wi-table"><tbody><tr><td class="empty">Chọn giả định rồi bấm Chạy thử.</td></tr></tbody></table></div>
+      <div><canvas id="wi-chart" height="220"></canvas><div class="legend" id="wi-legend"></div></div>
+    </div>
+  </section>
+
+
+  <section class="section-head" id="results-head">
+    <span class="eyebrow">Thực nghiệm nhiều seed</span>
+    <h2>Kết quả thí nghiệm theo ngưỡng tải</h2>
+    <p id="results-note">Chạy <span class="num">python -m experiments.run_experiments</span> và <span class="num">python -m experiments.threshold_study</span> để hiện phần này.</p>
+  </section>
+  <section class="panel" id="res-matrix-panel" hidden>
+    <div class="panel-head"><h2>Cải thiện AWT so với P0</h2>
+      <div style="display:flex;gap:10px;flex-wrap:wrap">
+        <div class="field"><label for="res-lv">Mức tải</label><select id="res-lv"><option value="low">Thấp</option><option value="mid">Trung bình</option><option value="high" selected>Cao</option></select></div>
+        <div class="field"><label for="res-cap">Sức chứa</label><select id="res-cap"><option value="10">10</option><option value="15" selected>15</option></select></div>
+      </div></div>
+    <div class="scroll"><table id="res-matrix"></table></div>
+  </section>
+  <section class="grid2" id="res-threshold" hidden>
+    <div class="panel"><h2>D3: thêm cabin Express G–8 lợi bao nhiêu?</h2>
+      <canvas id="th-s1" height="260"></canvas>
+      <div class="legend" id="th-s1-legend"></div>
+      <p class="muted" style="margin:0;font-size:.82rem">Đường liền là mô phỏng, đường gạch là công thức mục 4 (chỉ cabin Express, sức chứa 15). Hai đường khớp nhau nghĩa là mô hình đã được kiểm chứng.</p></div>
+    <div class="panel"><h2>U1: khi nào nên chia vùng?</h2>
+      <canvas id="th-s3" height="260"></canvas>
+      <div class="legend"><span><i style="background:var(--accent)"></i>Chia Express/Zone</span><span><i style="background:var(--px)"></i>Mọi cabin phục vụ chung</span></div>
+      <p class="muted" style="margin:0;font-size:.82rem" id="th-s3-note"></p></div>
+  </section>
+  <section class="grid3" id="res-ai" hidden>
+    <div class="panel"><h2>Nhận diện chế độ giao thông</h2><div id="clf-box"></div></div>
+    <div class="panel"><h2>Optuna dò tham số P2</h2><canvas id="optuna" height="200"></canvas><div id="optuna-box" class="muted" style="font-size:.82rem"></div></div>
+    <div class="panel"><h2>Đóng góp từng thành phần</h2><div class="scroll"><table id="ablation"></table></div>
+      <p class="muted" style="margin:0;font-size:.8rem">AWT trung bình (s), tải cao, sức chứa 15.</p></div>
+  </section>
+  <section class="grid3" id="res-more" hidden>
+    <div class="panel"><h2>Đánh đổi chờ – năng lượng</h2><canvas id="pareto" height="240"></canvas>
+      <div class="field"><label for="pa-group">Nhóm</label><select id="pa-group"></select></div>
+      <p class="muted" style="margin:0;font-size:.8rem">Tỷ lệ so với P0 (1 = bằng P0). Đường nối là P2 eco với hệ số sử dụng mục tiêu tăng dần: ít cabin chạy hơn, tốn ít năng lượng hơn, chờ lâu hơn. Góc dưới trái là tốt nhất.</p></div>
+    <div class="panel"><h2>Độ nhạy ±20 %</h2><div class="scroll"><table id="sens"></table></div><p class="muted" id="sens-note" style="margin:0;font-size:.8rem"></p></div>
+    <div class="panel"><h2>Kiểm định thống kê</h2><div class="scroll"><table id="stats"></table></div><p class="muted" id="stats-note" style="margin:0;font-size:.8rem"></p></div>
+  </section>
+  <p class="foot">Mọi số liệu là kết quả MÔ PHỎNG với tham số giả định (2,2 s/tầng, 4 s đóng mở cửa, 0,6 s mỗi khách). Năng lượng tính bằng đơn vị tương đối EU, không phải kWh. Việc đổi tuyến dừng của A2–A6 là phương án điều phối giả định.</p>
+</div>
+
+
+<button class="chat-fab" id="chat-fab" aria-label="Mở trợ lý vận hành" aria-expanded="false" aria-controls="chat-box">
+  <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M4 5h16v10H9l-5 4z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><circle cx="9" cy="10" r="1.2" fill="currentColor"/><circle cx="12.5" cy="10" r="1.2" fill="currentColor"/><circle cx="16" cy="10" r="1.2" fill="currentColor"/></svg>
+  <span>Trợ lý</span>
+</button>
+<div class="chat-box" id="chat-box" role="dialog" aria-label="Trợ lý vận hành" hidden>
+  <div class="chat-head">
+    <div class="chat-title"><b>Trợ lý vận hành</b><span class="prov" id="llm-prov">LLM: –</span></div>
+    <button class="chat-x" id="chat-close" aria-label="Thu nhỏ trợ lý">
+      <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+    </button>
+  </div>
+  <div class="chat-log" id="chat-log" aria-live="polite">
+    <div class="msg bot">Mình tự chạy mô phỏng để trả lời bằng số liệu. Hỏi về kết quả, giả định hỏng cabin, hoặc nhờ viết báo cáo vận hành khi đang chạy trực tiếp.</div>
+  </div>
+  <div class="chips" id="chat-chips">
+    <button>Vì sao P2 tốt hơn ở kịch bản đang xem?</button>
+    <button>Nếu U1 có 450 người thì sao?</button>
+    <button>Nếu A1 hỏng 10 phút ở U1 thì sao?</button>
+    <button>So sánh P0–P4 ở D3 tải cao</button>
+    <button>Viết báo cáo vận hành</button>
+  </div>
+  <form class="chat-form" id="chat-form"><input id="chat-in" autocomplete="off" placeholder="Nhập câu hỏi…" aria-label="Câu hỏi cho trợ lý"><button class="btn primary" id="chat-send">Gửi</button></form>
+</div>
+
+<script>
+/*__PRELOAD__*/
+(() => {
+"use strict";
+const FLOORS = ["B2","B1","G","1","2","3","4","5","6","7","8","9","10"];
+const NF = 13, NC = 6, G = 2;
+const CARS = ["A1","A2","A3","A4","A5","A6"];
+const ALIAS = ["X","G5-A","G5-B","G8-A","G8-B","G8-C"];
+const CAR_COL = ["#2f6fdb","#8d5bd6","#169a8a","#e8743b","#c2417a","#7a8b2e"];
+const MODE_VI = {UP_PEAK:"Cao điểm lên", DOWN_PEAK:"Cao điểm xuống", TWO_WAY:"Hai chiều", INTERFLOOR:"Liên tầng", OFF_PEAK:"Thấp điểm"};
+const MODE_COL = {UP_PEAK:"#2f6fdb", DOWN_PEAK:"#e8743b", TWO_WAY:"#8d5bd6", INTERFLOOR:"#169a8a", OFF_PEAK:"#9aa3ad"};
+const LV_VI = {low:"Thấp", mid:"Trung bình", high:"Cao"};
+const $ = id => document.getElementById(id);
+const PRE = window.PRELOAD || null;
+
+const S = { meta:null, data:null, pos:0, playing:false, speed:10, last:0, results:null, lastChart:0 };
+
+// ---------- tokens
+let T = {};
+function readTokens(){
+  const cs = getComputedStyle(document.documentElement);
+  for (const k of ["bg","surface","sunk","ink","muted","line","accent","accent-soft","p0","px","ok","warn","bad"])
+    T[k] = cs.getPropertyValue("--"+k).trim();
+  T.fontData = cs.getPropertyValue("--font-data").trim();
+  T.fontUi = cs.getPropertyValue("--font-ui").trim();
+}
+readTokens();
+try { matchMedia("(prefers-color-scheme: dark)").addEventListener("change", () => { readTokens(); drawAll(true); }); } catch(e) {}
+new MutationObserver(() => { readTokens(); drawAll(true); }).observe(document.documentElement, {attributes:true, attributeFilter:["data-theme"]});
+
+function setupCanvas(cv){
+  const dpr = Math.min(2, window.devicePixelRatio || 1);
+  const w = cv.clientWidth || 300, h = +cv.getAttribute("height");
+  if (cv._w !== w || cv._dpr !== dpr){ cv.width = w*dpr; cv.height = h*dpr; cv.style.height = h+"px"; cv._w = w; cv._dpr = dpr; }
+  const ctx = cv.getContext("2d"); ctx.setTransform(dpr,0,0,dpr,0,0); ctx.clearRect(0,0,w,h);
+  return [ctx, w, h];
+}
+function alpha(hex, a){
+  if (!hex || hex[0] !== "#") return hex;
+  const n = parseInt(hex.length === 4 ? hex.slice(1).split("").map(c=>c+c).join("") : hex.slice(1), 16);
+  return `rgba(${n>>16&255},${n>>8&255},${n&255},${a})`;
+}
+const fmt = (v, d=1) => v === null || v === undefined || Number.isNaN(v) ? "–" : (+v).toLocaleString("vi-VN", {maximumFractionDigits:d, minimumFractionDigits:0});
+const waitColor = s => s <= 30 ? T.ok : s <= 90 ? T.warn : T.bad;
+
+// ---------- controls
+function fillControls(){
+  const m = S.meta;
+  const groups = {};
+  for (const [k,v] of Object.entries(m.scenarios)) (groups[v.group || "Kịch bản"] ||= []).push(`<option value="${k}">${k} · ${v.name}</option>`);
+  $("sel-sc").innerHTML = Object.entries(groups).map(([g,opts]) => `<optgroup label="${g}">${opts.join("")}</optgroup>`).join("");
+  $("sel-sc").value = PRE ? PRE.default.scenario : "U1";
+  $("sel-cfg").innerHTML = ["P1","P2","P3","P4"].filter(k => m.configs[k]).map(k => `<option value="${k}">${m.configs[k]}</option>`).join("");
+  $("sel-cfg").value = "P2";
+  updateLevels();
+  if (PRE){
+    $("docs-link").hidden = true;
+    for (const id of ["sel-lv","sel-cap","inp-seed","chk-noise"]) $(id).disabled = true;
+    $("btn-run").hidden = true; $("static-banner").hidden = false;
+    $("sel-sc").addEventListener("change", () => loadRun());
+    $("sel-cfg").addEventListener("change", () => loadRun());
+  } else {
+    $("sel-sc").addEventListener("change", updateLevels);
+    $("btn-run").addEventListener("click", () => loadRun());
+  }
+}
+function updateLevels(){
+  const sc = S.meta.scenarios[$("sel-sc").value];
+  $("sel-lv").innerHTML = ["low","mid","high"].map((l,i) => `<option value="${l}">${LV_VI[l]} · ${sc.levels[i]} người</option>`).join("");
+  $("sel-lv").value = "mid";
+  $("sc-note").textContent = (sc.time ? sc.time + " · " : "") + sc.note;
+}
+
+async function loadRun(){
+  const sc = $("sel-sc").value, cfg = $("sel-cfg").value;
+  $("sc-note").textContent = (S.meta.scenarios[sc].time ? S.meta.scenarios[sc].time + " · " : "") + S.meta.scenarios[sc].note;
+  if (PRE){
+    const r = PRE.runs[sc];
+    S.data = {scenario: sc, N: r.N, capacity: 15, seed: 42, level:"mid", compare: cfg, runs: {P0: r.P0, [cfg]: r[cfg]}};
+  } else {
+    const b = $("btn-run"); b.disabled = true; b.textContent = "Đang chạy…";
+    try {
+      const res = await fetch("/api/run", {method:"POST", headers:{"Content-Type":"application/json"}, body: JSON.stringify({
+        scenario: sc, level: $("sel-lv").value, capacity: +$("sel-cap").value, config: cfg,
+        seed: +$("inp-seed").value || 42, sensor_noise: $("chk-noise").checked})});
+      if (!res.ok) throw new Error((await res.json()).error || res.statusText);
+      S.data = await res.json();
+    } catch(e){ $("sc-note").textContent = "Không chạy được mô phỏng: " + e.message; return; }
+    finally { b.disabled = false; b.textContent = "Chạy mô phỏng"; }
+  }
+  S.pos = 0; S.playing = true; $("btn-play").textContent = "❚❚ Tạm dừng";
+  onNewData();
+}
+
+function runs(){ return [S.data.runs.P0, S.data.runs[S.data.compare]]; }
+function tmax(){ return Math.max(...runs().map(r => r.t[r.t.length-1] || 0)); }
+
+function onNewData(){
+  const [r0, rx] = runs(), cmp = S.data.compare;
+  $("tag-px").textContent = cmp; $("title-px").textContent = rx.title.replace(/^P\d\s–\s/, "");
+  $("title-p0").textContent = "Hiện trạng";
+  $("sub-p0").textContent = `${S.data.scenario} · ${S.data.N} người · sức chứa ${S.data.capacity}`;
+  for (const el of document.querySelectorAll(".cmp-name")) el.textContent = cmp;
+  $("st-title-px").textContent = $("hm-title-px").textContent = cmp;
+  $("scrub").max = tmax();
+  buildTiles(); buildKpiTable(); buildRoleLegend();
+  $("rt-sub").textContent = cmp + (cmp === "P2" ? " · đổi vai " + rx.kpi.role_changes + " lần" : "");
+  drawAll(true);
+}
+
+// ---------- tiles & tables
+const KPI_ROWS = [
+  ["AWT","Thời gian chờ TB (s)",1,true],["P95","Chờ P95 (s)",0,true],["max_wait","Chờ lâu nhất (s)",0,true],
+  ["pct_wait_gt60","% khách chờ > 60 s",1,true],["ATT","Thời gian trong cabin (s)",1,true],["total_time","Tổng hành trình (s)",1,true],
+  ["throughput","Thông lượng (người)",0,false],["backlog","Backlog (người)",0,true],["bypass","Bypass do đầy tải",0,true],
+  ["stops","Số lần dừng",0,true],["useless_stops","Dừng vô ích",0,true],["energy","Năng lượng (EU)",0,true],
+  ["energy_per_pax","EU mỗi khách",2,true],["clearance","Thời gian giải tỏa (s)",0,true],["worst_floor_awt","AWT tầng tệ nhất (s)",1,true],
+  ["jain","Chỉ số công bằng Jain",3,false],["RTT","RTT trung bình (s)",1,true],["role_changes","Số lần đổi vai",0,null]];
+function deltaBadge(a, b, lowerBetter){
+  if (a === null || b === null || a === undefined || b === undefined || a === 0 || lowerBetter === null) return `<span class="delta flat">–</span>`;
+  const d = (b - a) / Math.abs(a) * 100;
+  const good = lowerBetter ? d < 0 : d > 0;
+  const cls = Math.abs(d) < 1 ? "flat" : good ? "good" : "bad";
+  return `<span class="delta ${cls}">${d > 0 ? "+" : ""}${fmt(d,0)} %</span>`;
+}
+function buildTiles(){
+  const [r0, rx] = runs(), cmp = S.data.compare;
+  const items = [["AWT","Thời gian chờ TB","s"],["P95","Chờ P95","s"],["worst_floor_awt","AWT tầng tệ nhất","s"],["clearance","Giải tỏa hết khách","s"],["energy","Năng lượng","EU"]];
+  $("tiles").innerHTML = items.map(([k,lab,u]) => {
+    const a = r0.kpi[k], b = rx.kpi[k];
+    const shown = b === null ? "chưa hết" : fmt(b, k === "energy" ? 0 : 1) + " " + u;
+    return `<div class="tile"><span class="eyebrow">${lab}</span><span class="v">${shown}</span>
+      <span class="sub">P0: <span class="num">${a === null ? "chưa hết" : fmt(a, k==="energy"?0:1)}</span> ${deltaBadge(a,b,true)}</span></div>`;
+  }).join("");
+}
+function buildKpiTable(){
+  const [r0, rx] = runs(), cmp = S.data.compare;
+  $("kpi-table").innerHTML = `<thead><tr><th>Chỉ số</th><th>P0</th><th>${cmp}</th><th>Thay đổi</th></tr></thead><tbody>` +
+    KPI_ROWS.map(([k,lab,d,lb]) => `<tr><td>${lab}</td><td class="num">${fmt(r0.kpi[k],d)}</td><td class="num">${fmt(rx.kpi[k],d)}</td><td>${deltaBadge(r0.kpi[k], rx.kpi[k], lb)}</td></tr>`).join("") + "</tbody>";
+}
+function buildRoleLegend(){
+  const kinds = {BASE:"Tuyến gốc", LOCAL:"Local", EXPRESS:"Express", ZONE:"Zone", SHUTTLE:"Shuttle", STANDBY:"Standby"};
+  const seen = {};
+  for (const r of runs()) for (const ro of r.roles) seen[ro.kind] = ro.color;
+  $("role-legend").innerHTML = Object.entries(seen).map(([k,c]) => `<span><i style="background:${c}"></i>${kinds[k]}</span>`).join("") +
+    `<span><i style="background:${T.ok}"></i>chờ ≤ 30 s</span><span><i style="background:${T.warn}"></i>30–90 s</span><span><i style="background:${T.bad}"></i>&gt; 90 s</span>` +
+    `<span>Chấm cạnh giếng = tầng cabin đang dừng phục vụ</span>`;
+  $("car-legend").innerHTML = CARS.map((c,i) => `<span><i style="background:${CAR_COL[i]}"></i>${c}</span>`).join("");
+}
+
+// ---------- building drawing
+function frameAt(run, t){
+  const n = run.t.length; if (!n) return null;
+  const i = Math.max(0, Math.min(n - 1, Math.floor(t)));
+  const j = Math.min(n - 1, i + 1);
+  return {i, j, a: Math.max(0, Math.min(1, t - i))};
+}
+function roleAt(run, ci, t){
+  // vai hiện tại = sự kiện đổi vai gần nhất ≤ t (dự phòng: chỉ số vai trong khung)
+  const fr = frameAt(run, t); return run.roles[run.c[fr.i][ci*5+3]];
+}
+function drawBuilding(cv, run, t, isPx, opts = {}){
+  const [ctx, W, H] = setupCanvas(cv);
+  const fr = frameAt(run, t); if (!fr) return;
+  const top = 50, bottom = 8, rowH = (H - top - bottom) / NF;
+  const labW = 34, qW = Math.max(70, Math.min(150, W * 0.24)), shaftArea = W - labW - qW - 8;
+  const sw = shaftArea / NC;
+  const yOf = f => top + (NF - 1 - f) * rowH;
+  ctx.font = `11px ${T.fontData}`; ctx.textBaseline = "middle";
+  // tầng
+  for (let f = 0; f < NF; f++){
+    const y = yOf(f);
+    if (f === G){ ctx.fillStyle = alpha(T.accent, .12); ctx.fillRect(0, y, W, rowH); }
+    ctx.strokeStyle = T.line; ctx.lineWidth = 1; ctx.beginPath(); ctx.moveTo(0, y + rowH); ctx.lineTo(W, y + rowH); ctx.stroke();
+    ctx.fillStyle = f === G ? T.accent : T.muted; ctx.textAlign = "left";
+    ctx.fillText(FLOORS[f], 4, y + rowH/2);
+    // hàng chờ
+    const base = run.f[fr.i], up = base[f*3], dn = base[f*3+1], old = base[f*3+2];
+    const n = up + dn;
+    if (n){
+      const col = waitColor(old), maxDots = Math.floor((qW - 34) / 7);
+      ctx.fillStyle = col;
+      for (let k = 0; k < Math.min(n, maxDots); k++){ ctx.beginPath(); ctx.arc(labW + 4 + k*7, y + rowH/2, 2.6, 0, 7); ctx.fill(); }
+      ctx.fillStyle = T.ink; ctx.textAlign = "right";
+      ctx.fillText((up ? "▲" : "") + (dn ? "▼" : "") + n, labW + qW - 2, y + rowH/2);
+    }
+  }
+  // giếng & cabin
+  for (let c = 0; c < NC; c++){
+    const x0 = labW + qW + 8 + c * sw, cx = x0 + sw/2, cw = Math.min(sw - 10, 46);
+    const v0 = run.c[fr.i], v1 = run.c[fr.j];
+    const pos = v0[c*5] + (v1[c*5] - v0[c*5]) * fr.a;
+    const load = v0[c*5+1], state = v0[c*5+2], role = run.roles[v0[c*5+3]], dir = v0[c*5+4];
+    // ray
+    ctx.fillStyle = alpha(T.muted, .08); ctx.fillRect(cx - cw/2 - 3, top, cw + 6, NF * rowH);
+    // tầng phục vụ
+    ctx.fillStyle = role.color;
+    for (const s of role.stops){ ctx.beginPath(); ctx.arc(cx - cw/2 - 7, yOf(s) + rowH/2, 2.4, 0, 7); ctx.fill(); }
+    // đầu giếng
+    ctx.textAlign = "center"; ctx.fillStyle = T.ink; ctx.font = `600 12px ${T.fontUi}`;
+    ctx.fillText(CARS[c], cx, 12);
+    ctx.font = `10px ${T.fontUi}`; ctx.fillStyle = role.color;
+    const lab = role.label.replace("Local (sảnh: trừ ", "Local −").replace(")", "");
+    ctx.fillText(fitText(ctx, lab, sw - 2), cx, 27);
+    ctx.fillStyle = T.muted; ctx.fillText(ALIAS[c], cx, 40);
+    // cabin
+    const y = yOf(pos) + 3, ch = rowH - 6;
+    const cap = opts.capacity || (S.data ? S.data.capacity : 15), frac = Math.min(1, load / cap);
+    ctx.fillStyle = state === 3 ? alpha(T.muted, .25) : T.surface;
+    ctx.fillRect(cx - cw/2, y, cw, ch);
+    ctx.fillStyle = alpha(role.color, .55); ctx.fillRect(cx - cw/2, y + ch * (1 - frac), cw, ch * frac);
+    ctx.strokeStyle = role.color; ctx.lineWidth = state === 2 ? 2.5 : 1.5; ctx.strokeRect(cx - cw/2, y, cw, ch);
+    if (state === 2){ ctx.strokeStyle = T.surface; ctx.lineWidth = 1; ctx.beginPath(); ctx.moveTo(cx, y + 2); ctx.lineTo(cx, y + ch - 2); ctx.stroke(); }
+    ctx.fillStyle = T.ink; ctx.font = `600 11px ${T.fontData}`;
+    ctx.fillText(state === 3 ? "z" : String(load), cx, y + ch/2);
+    if (dir && state === 1){ ctx.fillStyle = role.color; ctx.font = `10px ${T.fontUi}`; ctx.fillText(dir > 0 ? "▲" : "▼", cx + cw/2 + 6, y + ch/2); }
+  }
+  if (opts.noStats) return;
+  // live stats
+  const tt = Math.min(t, run.t.length - 1), base = run.f[fr.i];
+  let waiting = 0; for (let f = 0; f < NF; f++) waiting += base[f*3] + base[f*3+1];
+  let riding = 0; for (let c = 0; c < NC; c++) riding += run.c[fr.i][c*5+1];
+  $(isPx ? "live-px" : "live-p0").innerHTML =
+    `<div><span>Đã đến</span><b>${run.a[fr.i]}</b></div><div><span>Đang chờ</span><b>${waiting}</b></div>` +
+    `<div><span>Trong cabin</span><b>${riding}</b></div><div><span>Tới đích</span><b>${run.d[fr.i]}</b></div>`;
+  if (isPx){
+    const m = modeAt(run, t), chip = $("mode-px");
+    chip.hidden = !m; if (m) chip.textContent = "AI: " + MODE_VI[m];
+  }
+}
+function fitText(ctx, s, w){ if (ctx.measureText(s).width <= w) return s; while (s.length > 2 && ctx.measureText(s + "…").width > w) s = s.slice(0, -1); return s + "…"; }
+function modeAt(run, t){ let m = null; for (const x of run.modes || []) if (x.t <= t) m = x.mode; return m; }
+
+// ---------- generic axes
+function axes(ctx, box, xr, yr, o = {}){
+  const {x, y, w, h} = box;
+  ctx.font = `10px ${T.fontData}`; ctx.fillStyle = T.muted; ctx.strokeStyle = alpha(T.muted, .18); ctx.lineWidth = 1;
+  const xt = o.xticks || niceTicks(xr[0], xr[1], 5), yt = o.yticks || niceTicks(yr[0], yr[1], 4);
+  ctx.textAlign = "center"; ctx.textBaseline = "top";
+  for (const v of xt){ const px = x + (v - xr[0]) / (xr[1] - xr[0]) * w; ctx.beginPath(); ctx.moveTo(px, y); ctx.lineTo(px, y + h); ctx.stroke(); ctx.fillText(o.xfmt ? o.xfmt(v) : fmt(v,0), px, y + h + 4); }
+  ctx.textAlign = "right"; ctx.textBaseline = "middle";
+  for (const v of yt){ const py = y + h - (v - yr[0]) / (yr[1] - yr[0]) * h; ctx.beginPath(); ctx.moveTo(x, py); ctx.lineTo(x + w, py); ctx.stroke(); ctx.fillText(o.yfmt ? o.yfmt(v) : fmt(v, 2), x - 5, py); }
+  if (o.xlab){ ctx.textAlign = "right"; ctx.textBaseline = "bottom"; ctx.fillText(o.xlab, x + w, y + h + 28); }
+  if (o.ylab){ ctx.textAlign = "left"; ctx.textBaseline = "bottom"; ctx.fillText(o.ylab, x - 30 < 0 ? 2 : x - 30, y - 6); }
+  const X = v => x + (v - xr[0]) / (xr[1] - xr[0]) * w, Y = v => y + h - (v - yr[0]) / (yr[1] - yr[0]) * h;
+  return [X, Y];
+}
+function niceTicks(a, b, n){
+  if (b <= a) return [a];
+  const step0 = (b - a) / n, mag = Math.pow(10, Math.floor(Math.log10(step0)));
+  const step = [1,2,2.5,5,10].map(m => m*mag).find(s => s >= step0) || mag*10;
+  const out = []; for (let v = Math.ceil(a/step)*step; v <= b + 1e-9; v += step) out.push(+v.toFixed(6)); return out;
+}
+
+// ---------- space-time
+function drawSpaceTime(cv, run, t){
+  const [ctx, W, H] = setupCanvas(cv);
+  const box = {x: 30, y: 8, w: W - 40, h: H - 32}, tm = tmax();
+  const [X, Y] = axes(ctx, box, [0, tm], [0, NF-1], {yticks:[0,2,4,6,8,10,12], yfmt: v => FLOORS[v], xlab:"giây"});
+  for (let c = 0; c < NC; c++){
+    ctx.strokeStyle = CAR_COL[c]; ctx.lineWidth = 1.3; ctx.beginPath();
+    for (let i = 0; i < run.t.length; i++){ const px = X(run.t[i]), py = Y(run.c[i][c*5]); i ? ctx.lineTo(px, py) : ctx.moveTo(px, py); }
+    ctx.stroke();
+  }
+  for (const [st, ci, f, ni, no] of run.stops){ ctx.fillStyle = CAR_COL[ci]; ctx.beginPath(); ctx.arc(X(st), Y(f), (ni + no) ? 2.2 : 1.2, 0, 7); ctx.fill(); }
+  playhead(ctx, X(t), box);
+}
+function playhead(ctx, px, box){ ctx.strokeStyle = T.accent; ctx.lineWidth = 1.5; ctx.beginPath(); ctx.moveTo(px, box.y); ctx.lineTo(px, box.y + box.h); ctx.stroke(); }
+
+// ---------- heatmap
+function drawHeat(cv, run, t, vmax){
+  const [ctx, W, H] = setupCanvas(cv);
+  const box = {x: 30, y: 6, w: W - 40, h: H - 30}, tm = tmax(), bin = 5, nb = Math.ceil(tm / bin) + 1;
+  const [X, Y] = axes(ctx, box, [0, tm], [0, NF], {yticks: [], xlab: "giây"});
+  const rh = box.h / NF, bw = box.w / nb;
+  for (let b = 0; b < nb; b++){
+    const i = Math.min(run.t.length - 1, b * bin);
+    for (let f = 0; f < NF; f++){
+      const v = run.f[i][f*3] + run.f[i][f*3+1]; if (!v) continue;
+      const a = Math.min(1, v / vmax);
+      ctx.fillStyle = alpha(a > .66 ? T.bad : a > .33 ? T.warn : T.accent, .25 + .75 * a);
+      ctx.fillRect(box.x + b * bw, box.y + (NF - 1 - f) * rh, Math.ceil(bw), Math.ceil(rh) - 1);
+    }
+  }
+  ctx.fillStyle = T.muted; ctx.textAlign = "right"; ctx.textBaseline = "middle"; ctx.font = `10px ${T.fontData}`;
+  for (let f = 0; f < NF; f += 2) ctx.fillText(FLOORS[f], box.x - 5, box.y + (NF - 1 - f + .5) * rh);
+  playhead(ctx, X(t), box);
+}
+
+// ---------- role timeline
+function drawRoles(cv, run, t){
+  const [ctx, W, H] = setupCanvas(cv);
+  const box = {x: 34, y: 4, w: W - 44, h: H - 28}, tm = tmax(), rows = NC + 1, rh = box.h / rows;
+  const [X] = axes(ctx, box, [0, tm], [0, 1], {yticks: [], xlab: "giây"});
+  // chế độ
+  const ms = run.modes || [];
+  for (let k = 0; k < ms.length; k++){
+    const a = ms[k].t, b = k + 1 < ms.length ? ms[k+1].t : tm;
+    ctx.fillStyle = alpha(MODE_COL[ms[k].mode] || T.muted, .3); ctx.fillRect(X(a), box.y, Math.max(1, X(b) - X(a)), rh - 3);
+    ctx.fillStyle = T.ink; ctx.font = `10px ${T.fontUi}`; ctx.textAlign = "left"; ctx.textBaseline = "middle";
+    if (X(b) - X(a) > 60) ctx.fillText(MODE_VI[ms[k].mode], X(a) + 4, box.y + rh/2 - 1);
+  }
+  ctx.fillStyle = T.muted; ctx.font = `10px ${T.fontData}`; ctx.textAlign = "right"; ctx.fillText("AI", box.x - 5, box.y + rh/2);
+  for (let c = 0; c < NC; c++){
+    const y = box.y + (c + 1) * rh;
+    ctx.fillStyle = T.muted; ctx.textAlign = "right"; ctx.fillText(CARS[c], box.x - 5, y + rh/2);
+    let start = 0, cur = run.c[0][c*5+3];
+    const step = Math.max(1, Math.floor(run.t.length / 600));
+    for (let i = step; i <= run.t.length; i += step){
+      const v = i < run.t.length ? run.c[i][c*5+3] : -1;
+      if (v !== cur){
+        const ro = run.roles[cur]; ctx.fillStyle = ro.color;
+        ctx.fillRect(X(run.t[start]), y + 2, Math.max(1, X(run.t[Math.min(i, run.t.length-1)]) - X(run.t[start])), rh - 5);
+        if (X(run.t[Math.min(i, run.t.length-1)]) - X(run.t[start]) > 70){
+          ctx.fillStyle = "#fff"; ctx.textAlign = "left"; ctx.font = `10px ${T.fontUi}`;
+          ctx.fillText(fitText(ctx, ro.label.replace("Local (sảnh: trừ ", "Local −").replace(")", ""), X(run.t[Math.min(i, run.t.length-1)]) - X(run.t[start]) - 8), X(run.t[start]) + 4, y + rh/2);
+          ctx.font = `10px ${T.fontData}`;
+        }
+        start = i; cur = v;
+      }
+    }
+  }
+  playhead(ctx, X(t), box);
+}
+
+// ---------- static charts
+function drawCdf(){
+  const cv = $("cdf"), [ctx, W, H] = setupCanvas(cv), [r0, rx] = runs();
+  const all = r0.waits.concat(rx.waits).sort((a,b)=>a-b);
+  const xm = Math.max(30, all[Math.floor(all.length * .99)] || 60);
+  const box = {x: 34, y: 8, w: W - 44, h: H - 34};
+  const [X, Y] = axes(ctx, box, [0, xm], [0, 1], {yticks: [0,.25,.5,.75,1], yfmt: v => fmt(v*100,0) + "%", xlab: "giây chờ"});
+  for (const [r, col] of [[r0, T.p0], [rx, T.px]]){
+    const w = r.waits.slice().sort((a,b)=>a-b); ctx.strokeStyle = col; ctx.lineWidth = 2; ctx.beginPath();
+    w.forEach((v,i) => { const px = X(Math.min(v, xm)), py = Y((i+1)/w.length); i ? ctx.lineTo(px, py) : ctx.moveTo(px, Y(0)); });
+    ctx.stroke();
+  }
+}
+function drawFloors(){
+  const cv = $("floors"), [ctx, W, H] = setupCanvas(cv), [r0, rx] = runs();
+  const fl = FLOORS.filter(f => r0.floor_awt[f] !== undefined || rx.floor_awt[f] !== undefined);
+  const vmax = Math.max(10, ...fl.map(f => Math.max(r0.floor_awt[f] || 0, rx.floor_awt[f] || 0)));
+  const box = {x: 36, y: 8, w: W - 44, h: H - 34};
+  const [X, Y] = axes(ctx, box, [0, fl.length], [0, vmax], {xticks: [], yfmt: v => fmt(v,0)});
+  const gw = box.w / Math.max(1, fl.length), bw = Math.min(14, gw * .36);
+  ctx.textAlign = "center"; ctx.textBaseline = "top"; ctx.font = `10px ${T.fontData}`;
+  fl.forEach((f,i) => {
+    const cx = box.x + gw * (i + .5);
+    for (const [r, col, dx] of [[r0, T.p0, -bw/2 - 1], [rx, T.px, bw/2 + 1]]){
+      const v = r.floor_awt[f] || 0; ctx.fillStyle = col; ctx.fillRect(cx + dx - bw/2, Y(v), bw, box.y + box.h - Y(v));
+    }
+    ctx.fillStyle = T.muted; ctx.fillText(f, cx, box.y + box.h + 4);
+  });
+}
+function drawCarShare(){
+  const cv = $("carshare"), [ctx, W, H] = setupCanvas(cv), [r0, rx] = runs();
+  const vmax = Math.max(1, ...CARS.map(c => Math.max(r0.cars[c].pax, rx.cars[c].pax)));
+  const box = {x: 30, y: 6, w: W - 72, h: H - 30};
+  const [X] = axes(ctx, box, [0, vmax], [0, 1], {yticks: [], xfmt: v => fmt(v,0)});
+  const rh = box.h / NC;
+  ctx.textBaseline = "middle"; ctx.font = `10px ${T.fontData}`;
+  CARS.forEach((c,i) => {
+    const y = box.y + i * rh;
+    ctx.fillStyle = T.muted; ctx.textAlign = "right"; ctx.fillText(c, box.x - 5, y + rh/2);
+    [[r0, T.p0, 2], [rx, T.px, rh/2]].forEach(([r, col, dy]) => {
+      const v = r.cars[c].pax; ctx.fillStyle = col; ctx.fillRect(box.x, y + dy, X(v) - box.x, rh/2 - 3);
+      ctx.fillStyle = T.ink; ctx.textAlign = "left"; ctx.fillText(String(v), X(v) + 4, y + dy + (rh/2 - 3)/2);
+    });
+  });
+}
+function camTable(t){
+  const rx = runs()[1], rows = rx.obs.filter(o => o[0] <= t).slice(-7).reverse();
+  $("cam-table").innerHTML = `<thead><tr><th>t (s)</th><th>Cabin</th><th>Tầng</th><th>Chiều</th><th>Lên</th><th>Xuống</th><th>Cân tải (ước số người)</th><th>Nút gọi còn sáng</th></tr></thead><tbody>` +
+    (rows.length ? rows.map(o => `<tr class="obs-row"><td class="num">${fmt(o[0],1)}</td><td>${o[1]}</td><td class="num">${FLOORS[o[2]]}</td><td>${o[3] > 0 ? "▲" : "▼"}</td><td class="num">${o[4]}</td><td class="num">${o[5]}</td><td class="num">${o[6]}/${S.data.capacity}</td><td>${o[7] ? "có" : "không"}</td></tr>`).join("")
+      : `<tr><td colspan="8" class="empty">Chưa có lần mở cửa nào.</td></tr>`) + "</tbody>";
+}
+
+// ---------- draw loop
+function drawAll(full){
+  if (!S.data) return;
+  const [r0, rx] = runs(), t = S.pos;
+  drawBuilding($("bld-p0"), r0, Math.min(t, r0.t.length - 1), false);
+  drawBuilding($("bld-px"), rx, Math.min(t, rx.t.length - 1), true);
+  $("clock").textContent = `t = ${fmt(t,0)} s`;
+  $("scrub").value = t;
+  // đèn chỉ tầng của A1 ở phương án tối ưu
+  const fr = frameAt(rx, Math.min(t, rx.t.length - 1));
+  $("ind-floor").textContent = FLOORS[Math.round(rx.c[fr.i][0])]; const d = rx.c[fr.i][4]; $("ind-arrow").textContent = d > 0 ? "▲" : d < 0 ? "▼" : "•";
+  const now = performance.now();
+  if (full || now - S.lastChart > 220){
+    S.lastChart = now;
+    drawSpaceTime($("st-p0"), r0, t); drawSpaceTime($("st-px"), rx, t);
+    let vmax = 5; for (const r of [r0, rx]) for (const row of r.f) { let s = 0; for (let f = 0; f < NF; f++) s = Math.max(s, row[f*3] + row[f*3+1]); vmax = Math.max(vmax, s); }
+    drawHeat($("hm-p0"), r0, t, vmax); drawHeat($("hm-px"), rx, t, vmax);
+    drawRoles($("roles-px"), rx, t);
+    camTable(t);
+  }
+  if (full){ drawCdf(); drawFloors(); drawCarShare(); drawResults(); drawExtras(); }
+}
+function tick(now){
+  const dt = S.last ? (now - S.last) / 1000 : 0; S.last = now;
+  if (S.playing && S.data){
+    S.pos += dt * S.speed;
+    if (S.pos >= tmax()){ S.pos = tmax(); S.playing = false; $("btn-play").textContent = "▶ Phát"; }
+    drawAll(false);
+  }
+  requestAnimationFrame(tick);
+}
+$("btn-play").addEventListener("click", () => {
+  if (!S.data) return;
+  if (S.pos >= tmax()) S.pos = 0;
+  S.playing = !S.playing; $("btn-play").textContent = S.playing ? "❚❚ Tạm dừng" : "▶ Phát";
+});
+$("scrub").addEventListener("input", e => { S.pos = +e.target.value; drawAll(false); S.lastChart = 0; drawAll(false); });
+$("speed").addEventListener("click", e => {
+  const b = e.target.closest("button"); if (!b) return;
+  S.speed = +b.dataset.s; for (const x of $("speed").children) x.classList.toggle("on", x === b);
+});
+let rz; window.addEventListener("resize", () => { clearTimeout(rz); rz = setTimeout(() => drawAll(true), 120); });
+
+// ---------- results section
+function drawResults(){
+  const R = S.results; if (!R) return;
+  if (R.summary){
+    $("results-note").textContent = "Mỗi ô là trung bình nhiều seed; cùng seed nghĩa là cùng danh sách hành khách cho mọi cấu hình.";
+    $("res-matrix-panel").hidden = false; buildMatrix();
+    $("res-ai").hidden = false; buildAblation();
+  }
+  if (R.threshold){ $("res-threshold").hidden = false; drawThresholdS1(); drawThresholdS3(); }
+  if (R.classifier_report || R.optuna_report){ $("res-ai").hidden = false; buildClf(); drawOptuna(); }
+}
+function buildMatrix(){
+  const sm = S.results.summary.summary, lv = $("res-lv").value, cap = +$("res-cap").value;
+  const get = (s,c) => sm.find(r => r.scenario === s && r.level === lv && r.capacity === cap && r.config === c);
+  const sc = Object.keys(S.meta.scenarios);
+  let h = `<thead><tr><th>Tình huống</th><th>N</th><th>AWT P0 (s)</th><th>P1</th><th>P2</th><th>P3</th><th>P4 eco</th><th>Tốt nhất</th></tr></thead><tbody>`;
+  for (const s of sc){
+    const b = get(s,"P0"); if (!b) continue;
+    let best = "P0", bv = b.AWT;
+    const cells = ["P1","P2","P3","P4"].map(c => {
+      const r = get(s,c); if (!r) return "<td>–</td>";
+      if (r.AWT < bv){ bv = r.AWT; best = c; }
+      const imp = r.AWT_impr, a = Math.min(1, Math.abs(imp || 0) / 100);
+      const col = (imp || 0) >= 0 ? T.ok : T.bad;
+      return `<td><span class="cell-heat" style="background:${alpha(col, .12 + .45*a)}">${imp === null ? "–" : (imp > 0 ? "−" : "+") + fmt(Math.abs(imp),0) + " %"}</span><br><span class="muted num" style="font-size:.74rem">${fmt(r.AWT,1)} s ±${fmt(r.AWT_ci,1)}</span></td>`;
+    }).join("");
+    h += `<tr><td>${s} · ${S.meta.scenarios[s].name}<br><span class="muted" style="font-size:.74rem">${S.meta.scenarios[s].group || ""}</span></td><td class="num">${b.N}</td><td class="num">${fmt(b.AWT,1)}</td>${cells}<td><b>${best}</b></td></tr>`;
+  }
+  $("res-matrix").innerHTML = h + "</tbody>";
+}
+$("res-lv").addEventListener("change", buildMatrix); $("res-cap").addEventListener("change", buildMatrix);
+function drawThresholdS1(){
+  const d = S.results.threshold.s1.filter(r => r.capacity === 15 && !r.with_A1);
+  const cv = $("th-s1"), [ctx, W, H] = setupCanvas(cv);
+  const xs = [...new Set(d.map(r => r.N))], ym = Math.max(...d.map(r => Math.max(r.clear_sim, r.clear_formula || 0)));
+  const box = {x: 40, y: 10, w: W - 52, h: H - 38};
+  const [X, Y] = axes(ctx, box, [Math.min(...xs), Math.max(...xs)], [0, ym], {xlab: "số khách tầng 8", yfmt: v => fmt(v,0), ylab: "giây giải tỏa"});
+  const cols = ["#c2417a", "#e8743b", "#2f6fdb"];
+  for (const k of [1,2,3]){
+    const rows = d.filter(r => r.k === k).sort((a,b) => a.N - b.N);
+    for (const [key, dash] of [["clear_sim", []], ["clear_formula", [5,4]]]){
+      ctx.strokeStyle = cols[k-1]; ctx.lineWidth = 2; ctx.setLineDash(dash); ctx.beginPath();
+      rows.forEach((r,i) => { const p = [X(r.N), Y(r[key])]; i ? ctx.lineTo(...p) : ctx.moveTo(...p); }); ctx.stroke();
+    }
+  }
+  ctx.setLineDash([]);
+  $("th-s1-legend").innerHTML = [1,2,3].map(k => `<span><i style="background:${cols[k-1]}"></i>${k} cabin Express</span>`).join("");
+}
+function drawThresholdS3(){
+  const d = S.results.threshold.s3, cv = $("th-s3"), [ctx, W, H] = setupCanvas(cv);
+  const xs = [...new Set(d.map(r => r.N))], ym = Math.max(...d.map(r => r.AWT));
+  const box = {x: 40, y: 10, w: W - 52, h: H - 38};
+  const [X, Y] = axes(ctx, box, [Math.min(...xs), Math.max(...xs)], [0, ym * 1.05], {xlab: "số sinh viên vào tiết 1", yfmt: v => fmt(v,0), ylab: "AWT (s)"});
+  for (const [mode, col] of [["zoning", T.accent], ["pooling", T.px]]){
+    const rows = d.filter(r => r.mode === mode).sort((a,b) => a.N - b.N);
+    ctx.strokeStyle = col; ctx.lineWidth = 2.2; ctx.beginPath();
+    rows.forEach((r,i) => { const p = [X(r.N), Y(r.AWT)]; i ? ctx.lineTo(...p) : ctx.moveTo(...p); }); ctx.stroke();
+    ctx.fillStyle = col; rows.forEach(r => { ctx.beginPath(); ctx.arc(X(r.N), Y(r.AWT), 2.5, 0, 7); ctx.fill(); });
+  }
+  // điểm cắt
+  const z = d.filter(r => r.mode === "zoning").sort((a,b)=>a.N-b.N), p = d.filter(r => r.mode === "pooling").sort((a,b)=>a.N-b.N);
+  let cross = null; for (let i = 0; i < z.length; i++) if (z[i].AWT < p[i].AWT){ cross = z[i].N; break; }
+  $("th-s3-note").textContent = cross ? `Chia vùng bắt đầu có lợi từ khoảng ${cross} sinh viên trong 15 phút vào tiết 1; dưới mức đó nên để mọi cabin phục vụ chung. P2 tự chuyển giữa hai chế độ theo hệ số sử dụng ước tính.` :
+    "Trong dải đã thử, phục vụ chung luôn tốt hơn chia vùng.";
+  if (cross){ ctx.strokeStyle = T.muted; ctx.setLineDash([3,3]); ctx.beginPath(); ctx.moveTo(X(cross), box.y); ctx.lineTo(X(cross), box.y + box.h); ctx.stroke(); ctx.setLineDash([]); }
+}
+function buildClf(){
+  const c = S.results.classifier_report; if (!c){ $("clf-box").innerHTML = `<p class="empty">Chưa huấn luyện.</p>`; return; }
+  const lab = c.labels.map(l => MODE_VI[l]);
+  let h = `<div class="tiles" style="grid-template-columns:1fr 1fr"><div class="tile"><span class="eyebrow">Random Forest</span><span class="v">${fmt(c.acc_rf*100,1)} %</span></div>
+    <div class="tile"><span class="eyebrow">Luật ngưỡng</span><span class="v">${fmt(c.acc_rule*100,1)} %</span></div></div>
+    <p class="muted" style="margin:0;font-size:.8rem">Độ chính xác trên ${fmt(c.n_test,0)} cửa sổ 2 phút của seed chưa thấy khi huấn luyện, đầu vào là số liệu cảm biến có nhiễu.</p>
+    <div class="scroll"><table><thead><tr><th>Thật \\ Đoán</th>${lab.map(l => `<th>${l.split(" ").slice(-1)}</th>`).join("")}</tr></thead><tbody>`;
+  c.confusion_rf.forEach((row,i) => { const s = row.reduce((a,b)=>a+b,0) || 1;
+    h += `<tr><td>${lab[i]}</td>${row.map((v,j) => `<td class="num" style="background:${alpha(i===j ? T.ok : T.bad, Math.min(.5, v/s*(i===j?.5:2)))}">${v}</td>`).join("")}</tr>`; });
+  $("clf-box").innerHTML = h + "</tbody></table></div>";
+}
+function drawOptuna(){
+  const o = S.results.optuna_report; if (!o){ $("optuna-box").textContent = "Chưa chạy."; return; }
+  const cv = $("optuna"), [ctx, W, H] = setupCanvas(cv), hs = o.history;
+  const vs = hs.map(h => h.value), lo = Math.min(...vs), hi = Math.max(...vs);
+  const box = {x: 44, y: 8, w: W - 54, h: H - 32};
+  const [X, Y] = axes(ctx, box, [0, hs.length - 1], [lo - (hi-lo)*.1, hi + (hi-lo)*.1], {xlab: "lượt thử", yfmt: v => fmt(v,3)});
+  ctx.fillStyle = alpha(T.muted, .6); hs.forEach((h,i) => { ctx.beginPath(); ctx.arc(X(i), Y(h.value), 2.2, 0, 7); ctx.fill(); });
+  let best = Infinity; ctx.strokeStyle = T.accent; ctx.lineWidth = 2; ctx.beginPath();
+  hs.forEach((h,i) => { best = Math.min(best, h.value); i ? ctx.lineTo(X(i), Y(best)) : ctx.moveTo(X(i), Y(best)); }); ctx.stroke();
+  const imp = Object.entries(o.importance || {}).slice(0, 3).map(([k,v]) => `${k} (${fmt(v*100,0)} %)`).join(", ");
+  $("optuna-box").innerHTML = `Hàm mục tiêu J trên seed kiểm định: mặc định <b class="num">${fmt(o.val_default,3)}</b> → tối ưu <b class="num">${fmt(o.val_tuned,3)}</b>. ` +
+    (imp ? `Tham số ảnh hưởng nhất: ${imp}.` : "");
+}
+function buildAblation(){
+  const a = S.results.summary.ablation, sc = Object.keys(S.meta.scenarios);
+  const names = [...new Set(a.map(r => r.variant))];
+  let h = `<thead><tr><th>Biến thể</th>${sc.map(s => `<th>${s}</th>`).join("")}</tr></thead><tbody>`;
+  for (const n of names){
+    h += `<tr><td>${n}</td>` + sc.map(s => { const v = a.filter(r => r.variant === n && r.scenario === s).map(r => r.AWT); return `<td class="num">${fmt(v.reduce((x,y)=>x+y,0)/Math.max(1,v.length),1)}</td>`; }).join("") + "</tr>";
+  }
+  $("ablation").innerHTML = h + "</tbody>";
+}
+
+// ---------- trợ lý LLM
+const CHAT = { history: [], busy: false };
+function chatToggle(open){
+  const box = $("chat-box"), fab = $("chat-fab");
+  box.hidden = !open; fab.hidden = open; fab.setAttribute("aria-expanded", String(open));
+  try { localStorage.setItem("chat-open", open ? "1" : "0"); } catch(e) {}
+  if (open){ const log = $("chat-log"); log.scrollTop = log.scrollHeight; if (!$("chat-in").disabled) $("chat-in").focus(); } else fab.focus();
+}
+function chatInit(){
+  $("chat-fab").addEventListener("click", () => chatToggle(true));
+  $("chat-close").addEventListener("click", () => chatToggle(false));
+  document.addEventListener("keydown", e => { if (e.key === "Escape" && !$("chat-box").hidden) chatToggle(false); });
+  try { if (localStorage.getItem("chat-open") === "1") chatToggle(true); } catch(e) {}
+  if (PRE){
+    $("llm-prov").textContent = "cần máy chủ";
+    $("chat-log").insertAdjacentHTML("beforeend", `<div class="msg bot">Trợ lý cần máy chủ để chạy mô phỏng: chạy python web_app.py rồi mở http://localhost:5000. Đặt ANTHROPIC_API_KEY hoặc OPENAI_API_KEY để dùng LLM; không có khóa thì trợ lý trả lời bằng luật và vẫn lấy số từ mô phỏng thật.</div>`);
+    for (const el of [$("chat-in"), $("chat-send"), ...$("chat-chips").children]) el.disabled = true;
+    return;
+  }
+  fetch("/api/llm").then(r => r.json()).then(d => { $("llm-prov").textContent = d.provider === "offline" ? "Ngoại tuyến · luật + mô phỏng" : `${d.provider} · ${d.model}`; }).catch(() => {});
+  $("chat-form").addEventListener("submit", e => { e.preventDefault(); chatSend($("chat-in").value); });
+  $("chat-chips").addEventListener("click", e => { const b = e.target.closest("button"); if (b) chatSend(b.textContent); });
+}
+function esc(s){ return String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c])); }
+function md(s){ return esc(s).replace(/\*\*(.+?)\*\*/g, "<b>$1</b>").replace(/\n/g, "<br>"); }
+async function chatSend(text){
+  text = (text || "").trim(); if (!text || CHAT.busy) return;
+  CHAT.busy = true; $("chat-in").value = "";
+  const log = $("chat-log");
+  log.insertAdjacentHTML("beforeend", `<div class="msg user">${esc(text)}</div>`);
+  log.insertAdjacentHTML("beforeend", `<div class="msg bot" id="chat-wait">Đang chạy mô phỏng và soạn câu trả lời…</div>`);
+  log.scrollTop = log.scrollHeight;
+  let ctx = {};
+  if (S.data){
+    const [r0, rx] = runs(), pick = k => ({AWT: k.AWT, P95: k.P95, backlog: k.backlog, energy: k.energy, worst_floor_awt: k.worst_floor_awt});
+    ctx = {scenario: S.data.scenario, level: S.data.level, N: S.data.N, capacity: S.data.capacity, compare: S.data.compare,
+           kpi_P0: pick(r0.kpi), ["kpi_" + S.data.compare]: pick(rx.kpi), t_playback: Math.round(S.pos)};
+  }
+  try {
+    const d = await (await fetch("/api/chat", {method:"POST", headers:{"Content-Type":"application/json"}, body: JSON.stringify({message: text, history: CHAT.history, context: ctx})})).json();
+    const tools = (d.tools || []).map(t => `<span>đã chạy ${esc(t.tool)}(${esc(Object.entries(t.input || {}).map(([k,v]) => k + "=" + v).join(", "))})</span>`).join("");
+    $("chat-wait").outerHTML = `<div class="msg bot">${md(d.answer || d.error || "")}${tools ? `<div class="tools">${tools}</div>` : ""}</div>`;
+    CHAT.history.push({role: "user", content: text}, {role: "assistant", content: d.answer || ""});
+  } catch(e){
+    $("chat-wait").outerHTML = `<div class="msg bot">Không gọi được trợ lý: ${esc(e.message)}</div>`;
+  } finally { CHAT.busy = false; log.scrollTop = log.scrollHeight; }
+}
+
+// ---------- Thời gian thực
+const KIND_COL = {BASE:"#8a8f98", LOCAL:"#2f6fdb", EXPRESS:"#e8743b", ZONE:"#8d5bd6", SHUTTLE:"#169a8a", STANDBY:"#c3c7cf", OUT:"#d64545"};
+const STATE_CODE = {idle:0, moving:1, dwell:2, standby:3, waking:4};
+const LV = { timer: null, roleIdx: {}, roles: [] };
+function lvRoleIdx(r){
+  const key = r.label; if (!(key in LV.roleIdx)){ LV.roleIdx[key] = LV.roles.length; LV.roles.push({label: r.label, kind: r.kind, color: KIND_COL[r.kind] || "#888", stops: r.stops}); }
+  return LV.roleIdx[key];
+}
+function lvRun(cars, floors){
+  const c = []; for (const k of cars) c.push(k.pos, k.load, STATE_CODE[k.state] ?? 0, lvRoleIdx(k.role), k.dir || 0);
+  return {t: [0], c: [c], f: [floors], a: [0], d: [0], roles: LV.roles, modes: []};
+}
+function liveInit(){
+  $("lv-rfloor").innerHTML = FLOORS.map(f => `<option ${f==="G"?"selected":""}>${f}</option>`).join("");
+  if (PRE){
+    $("lv-static").hidden = false;
+    for (const id of ["lv-clock","lv-speed","lv-control","lv-start","lv-fcar","lv-fmin","lv-fault","lv-rfloor","lv-rcount","lv-report"]) $(id).disabled = true;
+    return;
+  }
+  $("lv-start").addEventListener("click", async () => {
+    if (LV.timer){ await post("/api/live/stop", {}); clearInterval(LV.timer); LV.timer = null; $("lv-start").textContent = "Bắt đầu"; $("lv-status").textContent = "Đã dừng"; $("lv-status").classList.remove("on"); return; }
+    const info = await post("/api/live/start", {clock: $("lv-clock").value, speed: +$("lv-speed").value, control: $("lv-control").value, capacity: S.data ? S.data.capacity : 15});
+    $("lv-status").textContent = `Đang chạy · ${info.bus === "mqtt" ? "MQTT " + info.prefix : "đường truyền nội bộ"} · ${info.n_classes} lớp`; $("lv-status").classList.add("on");
+    $("lv-start").textContent = "Dừng"; LV.timer = setInterval(livePoll, 1000); livePoll();
+  });
+  $("lv-control").addEventListener("change", () => post("/api/live/cmd", {kind: "control", mode: $("lv-control").value}));
+  $("lv-speed").addEventListener("change", () => post("/api/live/cmd", {kind: "speed", speed: +$("lv-speed").value}));
+  $("lv-fault").addEventListener("click", () => post("/api/live/cmd", {kind: "fault", car: $("lv-fcar").value, minutes: +$("lv-fmin").value}));
+  $("lv-report").addEventListener("click", () => post("/api/live/report", {floor: $("lv-rfloor").value, count: +$("lv-rcount").value}));
+  fetch("/api/live/state").then(r => r.json()).then(d => { if (d.running){ $("lv-start").textContent = "Dừng"; $("lv-status").textContent = "Đang chạy"; $("lv-status").classList.add("on"); LV.timer = setInterval(livePoll, 1000); } }).catch(() => {});
+}
+async function post(url, body){ const r = await fetch(url, {method:"POST", headers:{"Content-Type":"application/json"}, body: JSON.stringify(body)}); return r.json(); }
+async function livePoll(){
+  let d; try { d = await (await fetch("/api/live/state")).json(); } catch(e){ return; }
+  if (!d.running || !d.state || !d.truth) return;
+  const st = d.state, tr = d.truth, tw = d.twin || {};
+  // tòa nhà thật: hàng chờ thật
+  const realFloors = []; for (const [u, dn, old] of tr.waiting) realFloors.push(u, dn, old);
+  const realCars = st.cars.map(c => ({pos: c.pos, load: Math.round(c.load_kg / 65), state: c.out ? "standby" : c.state, dir: c.dir, role: c.role}));
+  drawBuilding($("lv-real"), lvRun(realCars, realFloors), 0, false, {noStats: true, capacity: S.data ? S.data.capacity : 15});
+  // twin: ước lượng hàng chờ từ nút gọi
+  const twFloors = new Array(NF * 3).fill(0);
+  for (const [f, dir, est, age] of (tw.est_calls || [])){ twFloors[f*3 + (dir > 0 ? 0 : 1)] += Math.round(est); twFloors[f*3+2] = Math.max(twFloors[f*3+2], age); }
+  if (tw.cars) drawBuilding($("lv-twin"), lvRun(tw.cars, twFloors), 0, false, {noStats: true, capacity: S.data ? S.data.capacity : 15});
+  $("lv-clock-real").textContent = tr.clock;
+  const realWait = tr.waiting.reduce((a, w) => a + w[0] + w[1], 0), estWait = (tw.est_waiting || []).reduce((a, b) => a + b, 0);
+  $("lv-real-stats").innerHTML = `<div><span>Đã đến</span><b>${tr.arrived}</b></div><div><span>Đang chờ</span><b>${realWait}</b></div><div><span>AWT 10 phút</span><b>${tr.awt_10min ?? "–"} s</b></div><div><span>Năng lượng</span><b>${fmt(tr.energy,0)}</b></div>`;
+  $("lv-twin-stats").innerHTML = `<div><span>Giờ</span><b>${tw.clock || "–"}</b></div><div><span>Ước lượng chờ</span><b>${fmt(estWait,0)}</b></div><div><span>Quan sát cảm biến</span><b>${tw.n_obs ?? 0}</b></div><div><span>Điều khiển</span><b>${tw.control === "advisory" ? "Tư vấn" : "Khép kín"}</b></div>`;
+  const chip = $("lv-mode"); chip.hidden = !tw.mode_vi; chip.textContent = "AI: " + (tw.mode_vi || "");
+  const la = tw.lookahead || {};
+  $("lv-forecast").innerHTML = la.keep && la.twin ? `<span>Giữ nguyên phân vai</span><b>AWT ${la.keep.AWT} s · P95 ${la.keep.P95} s · tệ nhất tầng ${la.keep.worst_floor}</b>
+    <span>Theo twin (P2)</span><b>AWT ${la.twin.AWT} s · P95 ${la.twin.P95} s · tệ nhất tầng ${la.twin.worst_floor}</b><span>Tính lúc</span><b>${la.clock} · ${la.n} khách</b>` : `<span class="muted">Đang tính dự báo…</span><b></b>`;
+  $("lv-upcoming").innerHTML = (tw.upcoming || []).map(e => `<div><span>${e.time.slice(0,5)}</span><span>Tầng ${FLOORS[e.floor]} ${e.kind} · ${e.subject} · ~${e.n} người</span></div>`).join("") || `<div class="muted">Không có lớp nào trong 15 phút tới.</div>`;
+  $("lv-cmds").innerHTML = (tw.cmd_log || []).slice().reverse().map(e => `<div><span>${e.clock.slice(0,5)}</span><span>${esc(e.text)}</span></div>`).join("") || `<div class="muted">Chưa gửi lệnh nào.</div>`;
+  $("lv-blog").innerHTML = (tr.log || []).slice().reverse().map(e => `<div><span>${e.t.slice(0,5)}</span><span>${esc(e.msg)}</span></div>`).join("") || `<div class="muted">–</div>`;
+  liveAcc(d.history || [], d.accuracy);
+}
+function liveAcc(h, acc){
+  const cv = $("lv-acc"), [ctx, W, H] = setupCanvas(cv); if (h.length < 2) return;
+  const ym = Math.max(5, ...h.map(x => Math.max(x.real, x.est)));
+  const box = {x: 30, y: 8, w: W - 40, h: H - 30};
+  const [X, Y] = axes(ctx, box, [h[0].t, h[h.length-1].t], [0, ym], {xfmt: v => "", yfmt: v => fmt(v,0)});
+  for (const [k, col] of [["real", T.p0], ["est", T.px]]){ ctx.strokeStyle = col; ctx.lineWidth = 2; ctx.beginPath(); h.forEach((x,i) => { const p = [X(x.t), Y(x[k])]; i ? ctx.lineTo(...p) : ctx.moveTo(...p); }); ctx.stroke(); }
+  $("lv-acc-note").innerHTML = `<span style="color:${T.p0}">■</span> thật · <span style="color:${T.px}">■</span> twin ước lượng` + (acc ? ` · sai số trung bình ${acc.mae} người (thật trung bình ${acc.mean_real})` : "");
+}
+
+// ---------- What-if
+function whatifInit(){
+  $("wi-sc").innerHTML = $("sel-sc").innerHTML; $("wi-sc").value = "D2";
+  $("wi-demand").addEventListener("input", e => $("wi-dlab").textContent = fmt(+e.target.value, 1));
+  if (PRE){ for (const id of ["wi-sc","wi-car","wi-start","wi-min","wi-demand","wi-cfg","wi-run"]) $(id).disabled = true;
+    $("wi-table").innerHTML = `<tbody><tr><td class="empty">What-if cần máy chủ: chạy python web_app.py.</td></tr></tbody>`; return; }
+  $("wi-run").addEventListener("click", async () => {
+    const b = $("wi-run"); b.disabled = true; b.textContent = "Đang chạy…";
+    try {
+      const d = await post("/api/whatif", {scenario: $("wi-sc").value, fault_car: $("wi-car").value, fault_start_min: +$("wi-start").value,
+        fault_minutes: +$("wi-min").value, demand: +$("wi-demand").value, config: $("wi-cfg").value, capacity: S.data ? S.data.capacity : 15});
+      whatifShow(d);
+    } finally { b.disabled = false; b.textContent = "Chạy thử"; }
+  });
+}
+function whatifShow(d){
+  const cfg = $("wi-cfg").value, order = [["P0_normal","P0 bình thường"],["P0_whatif","P0 có giả định"],[cfg+"_normal",cfg+" bình thường"],[cfg+"_whatif",cfg+" có giả định"]];
+  const cols = {P0_normal: alpha(T.p0, .45), P0_whatif: T.p0, [cfg+"_normal"]: alpha(T.px, .45), [cfg+"_whatif"]: T.px};
+  const desc = (d.fault ? `${d.fault} hỏng ${d.fault_minutes} phút` : "không hỏng cabin") + ` · ${d.N} khách (bình thường ${d.N_normal})`;
+  $("wi-table").innerHTML = `<thead><tr><th>${esc(desc)}</th><th>AWT (s)</th><th>P95 (s)</th><th>Chờ lâu nhất</th><th>Tầng tệ nhất</th><th>Năng lượng</th></tr></thead><tbody>` +
+    order.map(([k, lab]) => { const r = d.runs[k]; if (!r) return ""; const q = r.kpi;
+      return `<tr><td><span style="color:${cols[k]}">■</span> ${lab}</td><td class="num">${fmt(q.AWT,1)}</td><td class="num">${fmt(q.P95,0)}</td><td class="num">${fmt(q.max_wait,0)}</td><td class="num">${fmt(q.worst_floor_awt,0)}</td><td class="num">${fmt(q.energy,0)}</td></tr>`; }).join("") + "</tbody>";
+  const cv = $("wi-chart"), [ctx, W, H] = setupCanvas(cv);
+  const all = order.map(([k]) => d.runs[k]).filter(Boolean);
+  const tm = Math.max(...all.map(r => r.series.length ? r.series[r.series.length-1][0] : 0)), ym = Math.max(5, ...all.flatMap(r => r.series.map(p => p[1])));
+  const box = {x: 36, y: 8, w: W - 46, h: H - 34};
+  const [X, Y] = axes(ctx, box, [0, tm], [0, ym], {xlab: "giây", yfmt: v => fmt(v,0)});
+  for (const [k] of order){ const r = d.runs[k]; if (!r) continue; ctx.strokeStyle = cols[k]; ctx.lineWidth = 2; ctx.beginPath(); r.series.forEach((p,i) => i ? ctx.lineTo(X(p[0]), Y(p[1])) : ctx.moveTo(X(p[0]), Y(p[1]))); ctx.stroke(); }
+  $("wi-legend").innerHTML = order.map(([k, lab]) => `<span><i style="background:${cols[k]}"></i>${lab}</span>`).join("") + `<span>trục dọc: số người đang chờ</span>`;
+}
+
+// ---------- kết quả bổ sung: Pareto, độ nhạy, thống kê
+function drawExtras(){
+  const R = S.results; if (!R) return;
+  if (R.pareto || R.sensitivity || R.stats) $("res-more").hidden = false;
+  if (R.pareto){
+    const sel = $("pa-group"); if (!sel.options.length){ sel.innerHTML = Object.keys(R.pareto.groups).map(g => `<option>${g}</option>`).join(""); sel.addEventListener("change", drawPareto); }
+    drawPareto();
+  }
+  if (R.sensitivity){
+    const sv = R.sensitivity, rows = sv.rows;
+    let h = `<thead><tr><th>Tham số</th>${sv.factors.map(f => `<th>×${fmt(f,1)}</th>`).join("")}</tr></thead><tbody>`;
+    for (const [p, lab] of Object.entries(sv.params)){
+      h += `<tr><td>${lab}</td>` + sv.factors.map(f => { const v = rows.filter(r => r.param === p && r.factor === f).map(r => r.improve_pct);
+        return `<td class="num">${fmt(Math.min(...v),0)}–${fmt(Math.max(...v),0)} %</td>`; }).join("") + "</tr>";
+    }
+    $("sens").innerHTML = h + "</tbody>";
+    $("sens-note").textContent = `Mức giảm AWT của P2 so với P0 (khoảng giữa 4 kịch bản U1, D1, I1, O1). ${sv.all_wins ? "P2 tốt hơn P0 ở mọi lượt chạy" : "Có lượt P2 không tốt hơn P0"}; mức giảm nhỏ nhất ${fmt(sv.min_improve,0)} %.`;
+  }
+  if (R.stats){
+    const st = R.stats.summary;
+    $("stats").innerHTML = `<thead><tr><th>Cấu hình</th><th>Số so sánh</th><th>Tốt hơn P0*</th><th>Tệ hơn P0*</th><th>Tốt hơn ở mọi seed</th><th>Giảm AWT trung vị</th></tr></thead><tbody>` +
+      Object.entries(st).map(([k,v]) => `<tr><td>${k}</td><td class="num">${v.comparisons}</td><td class="num">${v.significant_better}</td><td class="num">${v.significant_worse}</td><td class="num">${v.all_seeds_better ?? "–"}</td><td class="num">${fmt(v.median_improve_pct,0)} %</td></tr>`).join("") + "</tbody>";
+    $("stats-note").textContent = `* có ý nghĩa thống kê sau hiệu chỉnh Holm cho ${R.stats.n_tests} phép so sánh (t-test cặp đôi trên log AWT, p < 0,05). Mỗi phép so sánh là một tổ hợp kịch bản × mức tải × sức chứa, 10 seed.`;
+  }
+}
+function drawPareto(){
+  const g = $("pa-group").value, rows = S.results.pareto.groups[g]; if (!rows) return;
+  const cv = $("pareto"), [ctx, W, H] = setupCanvas(cv);
+  const pts = Object.entries(rows).map(([n, v]) => ({n, x: v.energy_ratio, y: v.AWT_ratio}));
+  const others = pts.filter(p => p.n !== "P0");
+  const ymax = Math.min(1.05, Math.max(...others.map(p => p.y)) * 1.3);     // phóng to vùng các phương án tối ưu
+  const xs = pts.map(p => p.x), xmin = Math.min(...xs) * 0.95, xm = Math.max(...xs) * 1.05;
+  const box = {x: 44, y: 14, w: W - 58, h: H - 44};
+  const [X, Y] = axes(ctx, box, [xmin, xm], [0, ymax], {xlab: "năng lượng / P0", ylab: "AWT / P0", xfmt: v => fmt(v,2), yfmt: v => fmt(v,2)});
+  // đường năng lượng bằng P0
+  ctx.strokeStyle = T.p0; ctx.setLineDash([4,4]); ctx.beginPath(); ctx.moveTo(X(1), box.y); ctx.lineTo(X(1), box.y + box.h); ctx.stroke(); ctx.setLineDash([]);
+  const eco = pts.filter(p => p.n.startsWith("eco")).sort((a,b) => a.x - b.x);
+  ctx.strokeStyle = T.accent; ctx.lineWidth = 1.5; ctx.beginPath(); eco.forEach((p,i) => i ? ctx.lineTo(X(p.x), Y(p.y)) : ctx.moveTo(X(p.x), Y(p.y))); ctx.stroke();
+  ctx.font = `10px ${T.fontData}`; ctx.textBaseline = "bottom";
+  for (const p of pts){
+    const isEco = p.n.startsWith("eco"), col = p.n === "P0" ? T.p0 : p.n === "P2" ? T.px : isEco ? T.accent : T.muted;
+    const py = p.n === "P0" ? box.y + 4 : Y(Math.min(p.y, ymax));
+    ctx.fillStyle = col; ctx.beginPath(); ctx.arc(X(p.x), py, isEco ? 3.5 : 5, 0, 7); ctx.fill();
+    const showLab = !isEco || p === eco[0] || p === eco[eco.length - 1];
+    if (showLab){ ctx.fillStyle = T.ink; ctx.textAlign = "left";
+      ctx.fillText(p.n === "P0" ? "P0 (AWT = 1,0 ↑)" : p.n.replace("eco u=", "eco u="), X(p.x) + 6, py + (p.n === "P0" ? 12 : -2)); }
+  }
+}
+
+// ---------- boot
+async function boot(){
+  if (PRE){ S.meta = PRE.meta; S.results = PRE.results; }
+  else {
+    S.meta = await (await fetch("/api/meta")).json();
+    try { S.results = await (await fetch("/api/results")).json(); } catch(e) { S.results = null; }
+  }
+  fillControls();
+  chatInit(); liveInit(); whatifInit();
+  await loadRun();
+  requestAnimationFrame(tick);
+}
+boot();
+})();
+</script>

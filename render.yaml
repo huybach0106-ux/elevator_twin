@@ -1,0 +1,11 @@
+# Render.com: New + → Blueprint → chọn repo GitHub chứa project này
+services:
+  - type: web
+    name: elevator-digital-twin
+    runtime: docker
+    plan: free
+    envVars:
+      - key: GROQ_API_KEY
+        sync: false          # nhập khóa trên giao diện Render, không ghi vào repo
+      - key: GROQ_MODEL
+        value: openai/gpt-oss-120b
